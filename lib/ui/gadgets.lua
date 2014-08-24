@@ -36,7 +36,7 @@ local function fluid_amount(s)
  return string.gsub("%.tank.amount", "%%", s)
 end
 local function fluid_percentage(s)
- return string.gsub("(100 * %.tank.amount / %.tank.capacity)", "%%", s)
+ return string.gsub("(%.tank.amount / %.tank.capacity)", "%%", s)
 end
 local function production_type(s)
  s = getTable(s)
@@ -46,7 +46,7 @@ local function production_name(s)
  return getName(production_type(s))
 end
 local function production_rate(s)
- return string.gsub("(% and (1000 / %.ticks) or 0)", "%%", s)
+ return string.gsub("(% and (1 / %.ticks) or 0)", "%%", s)
 end
 local function me_amount(s)
  return s
