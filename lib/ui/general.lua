@@ -28,6 +28,15 @@ return function(formatTable, name, x, y)
     lines[1][1] = text
    end
   end,
+  color = function(fg, bg)
+   if fg then
+    object.foreground = {default = fg}
+   end
+   if bg then
+    object.background = {default = bg}
+   end
+   return object
+  end,
  })
  return object
 end
