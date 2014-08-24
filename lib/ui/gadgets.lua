@@ -5,6 +5,7 @@ local generalGadget = require 'ui.general'
 local interfaces = require 'config.interfaces'
 local uicolors = require 'ui.colors'
 local colors = require 'colors'
+local misc = require 'misc'
 
 local function wrapGadget(format)
  return function(...)
@@ -26,16 +27,16 @@ local function getName(s)
 end
 
 local function fluid_type(s)
- return string.gsub("(%.item or %.tank.type)", "%%", s)
+ return string.gsub("(%.tank.type)", "%%", s)
 end
 local function fluid_name(s)
  return getName(fluid_type(s))
 end
 local function fluid_amount(s)
- return string.gsub("%.amount", "%%", s)
+ return string.gsub("%.tank.amount", "%%", s)
 end
 local function fluid_percentage(s)
- return string.gsub("(100 * %.amount / %.capacity)", "%%", s)
+ return string.gsub("(100 * %.tank.amount / %.tank.capacity)", "%%", s)
 end
 local function production_type(s)
  s = getTable(s)
@@ -95,7 +96,6 @@ function gadgets.tank(name, x, y)
  local percentage = gadgets.percentage(fluid_percentage(name), 9, 3)
  
  type_color(root, uicolors.tank, fluid_type(name))
- 
  root.add(ftype)
  root.add(amount)
  root.add(percentage)
@@ -169,7 +169,7 @@ function gadgets.text(name, x, y)
   x = x,
   y = y,
  })
- obj.loadText(name)
+ obj.loadString(name)
  function obj.dynamic_color(code)
   local env = setmetatable({
    colors = colors,

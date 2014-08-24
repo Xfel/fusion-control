@@ -155,7 +155,7 @@ local function makeLine(parts, index, length)
  for i = 2, length - 1 do
   buffer[i] = middle
  end
- return {n = 1, table.concat(buffer, 1, length)}
+ return {n = 1, table.concat(buffer, "", 1, length)}
 end
 
 local function makeColor(value)
@@ -309,7 +309,7 @@ function gfx.new(obj)
  end
  ----drawing----
  function obj.iteratePipelined(originX, originY, onLine)
-  local spaces = obj.spaces
+  local spaces = obj.spaces or {}
   local y = originY
   for _,line in ipairs(obj.lines) do
    --start a new line

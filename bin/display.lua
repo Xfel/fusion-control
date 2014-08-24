@@ -6,7 +6,8 @@ local gadgets = require 'ui.gadgets'
 local ui = require 'ui'
 local gfx = require 'gfx'
 local os = require 'os'
-
+local shell = require 'shell'
+local interfaces = require 'config.interfaces'
 
 local root
 local function init()
@@ -14,18 +15,18 @@ local function init()
   x = 1,
   y = 1,
  })
- root.loadFile(shell.resolve("images/background.txt"), true)
- root.bind(interfaces.screens.monitoring)
- 
+ root.loadFile("/home/lib/images/background.txt", true)
+ root.bind(interfaces.screens.monitoring.screen_address, interfaces.screens.monitoring)
  local env = {}
  for name,gadget in pairs(gadgets) do
   env[name] = function(...)
    local g = gadget(...)
    root.add(g)
+   return g
   end
  end
  --load ui from file "images/gadgets.lua"
- local loader = assert(loadfile(shell.resolve("images/gadgets.lua") ,nil ,env))
+ local loader = assert(loadfile("/home/lib/images/gadgets.lua" ,nil ,env))
  loader()
 end
 local function run()

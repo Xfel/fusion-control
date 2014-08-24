@@ -177,7 +177,12 @@ end
 
 --------------------------- SCREEN -------------------------
 function screen(screen_address, gpu_address)
- local gpu=component.proxy(gpu_address)
+ local gpu = setmetatable({
+  screen_address = screen_address,
+  gpu_address = gpu_address,
+ },{
+  __index = component.proxy(gpu_address)
+ })
  gpu.bind(screen_address)
  return gpu
 end
@@ -193,7 +198,7 @@ interfaces = {
   machines = {
     electrolyzer = properties({
       cells  = rsBProp("8345d5c0-78e4-4e05-99bd-e817ac977252", sides.west),
-      function rate()
+      rate = function()
        return interfaces.electrolyzer[1].rate
       end,
      },{

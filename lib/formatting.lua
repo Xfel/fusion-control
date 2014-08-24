@@ -62,11 +62,15 @@ function formatting.number(number, format)
  local precision = format.precision
  local positiveSign = format.positiveSign
  local grouped = format.grouped
- 
+ local one = format.one
  
  if number == nil then
   return errorText(length)
  end
+ if one then
+  number = number / one
+ end
+ 
  
  local positiveSign = signTable[positiveSign]
  local formatPattern = "%" .. positiveSign

@@ -30,7 +30,7 @@ local items = {
     fluid = 114
   },
   plasma = {
-    name = "Helium Plasma",
+    name = "Plasma",
     id = 9583,
     damage = 131,
     fluid = 110

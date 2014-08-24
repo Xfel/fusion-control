@@ -5,6 +5,7 @@ local formats = {
   precision = 0,
   length = 11, --"2 000 000 B"
   unit = "B",
+  one = 1000,
  },
  fluid_small = {
   grouped = true,
@@ -12,6 +13,7 @@ local formats = {
   precision = 0,
   length = 4, --"10 B"
   unit = "B",
+  one = 1000,
  },
  fluid_type = {
   length = 10 --"Wolframium"
@@ -23,6 +25,7 @@ local formats = {
   precision = 1,
   length = 9, --"+7.8 mB/t"
   unit = "mB/t",
+  one = 0.001,
  },
  production_rate = {
   grouped = true,
@@ -30,6 +33,7 @@ local formats = {
   precision = 1,
   length = 8, --"2.0 mB/t"
   unit = "mB/t",
+  one = 0.001,
  },
  production_type = {
   length = 8 --"Platinum"
@@ -40,6 +44,7 @@ local formats = {
   precision = 0,
   length = 11, --"160 000 kEU"
   unit = "kEU",
+  one = 1000,
  },
  energy_rate = {
   grouped = true,
@@ -68,9 +73,10 @@ local formats = {
   precision = 0,
   length = 5, --"100 %"
   unit = "%",
+  one = 0.01,
  },
  text = {
  },
 }
 
-return
+return formats

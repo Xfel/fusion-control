@@ -130,7 +130,7 @@ function ui.new(obj)
   end
   
   if obj.needsRedraw ~= false then
-   if obj.draw
+   if obj.draw then
     --drawing
     obj.draw(gpu, obj.absX, obj.absY)
    end
