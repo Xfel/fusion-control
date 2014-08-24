@@ -20,9 +20,9 @@ me        ("items.iridium",      126, 23)
 me        ("items.platinum",     126, 25)
 eu        ("(reactor.recipe or {}).initial", 99, 9)
 eu        ("reactor.computer.energy",        99, 7)
-percentage([[function()
+percentage([[(function()
  local current = reactor.computer.energy
- local inital = (reactor.recipe or {}).initial
+ local initial = (reactor.recipe or {}).initial
  if initial then
   if current > initial then
    return 1
@@ -31,5 +31,5 @@ percentage([[function()
  else
   return "N/A"
  end
-end()
+end)()
 ]], 105, 11)
