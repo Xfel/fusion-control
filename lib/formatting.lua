@@ -63,12 +63,17 @@ function formatting.number(number, format)
  local positiveSign = format.positiveSign
  local grouped = format.grouped
  local one = format.one
+ local unit = format.unit or ""
  
  if number == nil then
   return errorText(length)
  end
  if one then
   number = number / one
+ end
+ if unit ~= "" then
+  unit = " " .. unit
+  length = length - #unit
  end
  
  
@@ -136,20 +141,7 @@ function formatting.number(number, format)
   return errorText(length)
  end
  --combine total number
- return result
-end
-function formatting.unit(value, format)
- local unit = format.unit or ""
- if unit~="" then
-  unit = " " .. unit
-  if format.length then
-   format = setmetatable(
-    {length = format.length - #unit},
-    {__index = format}
-   )
-  end
- end
- return formatting.number(value, format)..unit
+ return result .. unit
 end
 
 function formatting.percentage(percentage, decimals, positiveSign)

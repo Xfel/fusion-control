@@ -35,7 +35,7 @@ local colors = {
   [items.lithium]    = c(0x444444,0xAAAAAA),
   [items.iridium]    = c(0x444444,0xFFFFFF),
   [items.platinum]   = c(0x444444,0xAAAA88),
-  energy             = c(0x444444,0xFFFF00),
+  energy             = c(0xFFFF00,0x000000),
   me                 = c(0xFFFFFF,0x000000),
   default            = c(0xFFFFFF,0x000000),
  },

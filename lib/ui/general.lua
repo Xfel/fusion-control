@@ -21,7 +21,7 @@ return function(formatTable, name, x, y)
    {},
   },
   onUpdate = function()
-   local text = formatting.unit(getter(interfaces), formatTable)
+   local text = formatting.number(getter(interfaces), formatTable)
    local lines = object.lines
    if text ~= lines[1][1] then
     object.needsRedraw = true
