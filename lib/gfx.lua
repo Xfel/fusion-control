@@ -1,4 +1,4 @@
-﻿--[[
+--[[
  object format:
   obj={
    width = 7,

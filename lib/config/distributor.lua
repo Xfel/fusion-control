@@ -1,4 +1,4 @@
-﻿--[[
+--[[
  Diese Funktion kümmert sich um die Verteilung des Deuteriums.
  Der Rückgabewert besteht aus der 'property',
  mit der das Verhalten eingestellt werden kann,

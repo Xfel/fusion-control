@@ -61,14 +61,16 @@ local commands = {
   print("Reactor "..stateNames[interfaces.reactor.computer.enabled])
  end,
  generator = function(nr, state)
-  nr = evaluate(nr)  assert(nr and nr>=1 and nr<=4,"Invalid generator id")
+  nr = evaluate(nr)
+  assert(nr and nr>=1 and nr<=4,"Invalid generator id")
   local value = getStateValue(state)
   if value ~= nil then
    interfaces.generators[nr].enabled = value
   end
   print("Generator #"..nr.." "..stateNames[interfaces.generators[nr].enabled])
  end,
- centrifuge = function(nr, state)  nr = evaluate(nr)
+ centrifuge = function(nr, state)
+  nr = evaluate(nr)
   assert(nr and nr>=1 and nr<=6,"Invalid centrifuge id")
   local value = getStateValue(state)
   if value ~= nil then

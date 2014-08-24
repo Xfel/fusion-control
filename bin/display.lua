@@ -1,11 +1,11 @@
-﻿--TODO: load libraries and settings
+--TODO: load libraries and settings
 --depending on arguments:
 --start display timer
 --stop display timer
 local gadgets = require 'ui.gadgets'
 local ui = require 'ui'
 local gfx = require 'gfx'
-
+local os = require 'os'
 
 
 local root
@@ -31,6 +31,7 @@ end
 local function run()
  for i = 1, 10 do
   root.drawAll()
+  os.sleep(1)
  end
 end
 

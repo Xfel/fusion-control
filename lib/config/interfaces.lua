@@ -1,4 +1,4 @@
-﻿-- imports
+-- imports
 local component = require 'component'
 local sides = require 'sides'
 local colors = require 'colors'

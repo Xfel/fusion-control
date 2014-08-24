@@ -1,4 +1,4 @@
-﻿--[[
+--[[
  Diese Funktion vereinfacht die Handhabung des Reaktors in der Form,
  dass man das Rezept selbst einstellen kann.
  Beim Rezept 'nil' wird die Treibstoffrückführung dauerhaft aktiviert.

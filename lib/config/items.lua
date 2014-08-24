@@ -1,4 +1,4 @@
-﻿-- Item-Definitionen.
+-- Item-Definitionen.
 local items = {
   cells = {
     name = "Empty Cells",
