@@ -32,4 +32,4 @@ percentage([[(function()
   return "N/A"
  end
 end)()
-]], 105, 11)
+]], 105, 11).color(0xFFFFFF,0x000000)
