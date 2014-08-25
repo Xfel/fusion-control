@@ -138,6 +138,13 @@ local commands = {
   end
   print("Primer "..stateNames[interfaces.reactor.primer])
  end,
+ reserve = function(amount)
+  local value = tonumber(amount)
+  if value ~= nil then
+   interfaces.reactor.plasma_reserve = value * 1000.0
+  end
+  print("Plasma Reserve: " .. interfaces.reactor.plasma_reserve / 1000.0)
+ end,
 }
 
 
