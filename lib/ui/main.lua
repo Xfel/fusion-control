@@ -10,9 +10,6 @@ local fs = require 'filesystem'
 
 local _,this_file = ...
 local this_folder = fs.path(this_file)
-print(this_folder)
-print(this_file)
-print(_)
 
 local root
 local function run()
