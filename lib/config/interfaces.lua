@@ -6,6 +6,7 @@ local items = require 'config.items'
 local recipes = require 'config.recipes'
 local mixer = require 'config.mixer'
 local distributor = require 'config.distributor'
+local reserve = require 'config.reserve'
 
 -- einige hilfsfunktionen
 -- generiert eine Metatable, die entsprechende Getter/Setter-Funktionen in __index/__newindex nutzt.
@@ -359,8 +360,8 @@ interfaces.reactor = properties({
   interfaces.tanks.tritium,
   interfaces.machines.centrifuges
  ),
+ plasma_reserve = reserve(interfaces.tanks.plasma, "output_export"),
  primer = rsBProp("d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"),
 }, interfaces.reactor)
-
 
 return interfaces
