@@ -2,7 +2,12 @@
 local interfaces = require 'config.interfaces'
 local items = require 'config.items'
 local recipes = require 'config.recipes'
+local component = require 'component'
+--set primary screen to direct io.write and io.read to the right direction
+component.setPrimary("gpu", interfaces.screens.control.address)
+component.setPrimary("screen", interfaces.screens.control.screen_address)
 
+--possible escape sequences:
 local special_chars={
  s=" ",
  t="\t",

@@ -179,7 +179,6 @@ end
 function screen(screen_address, gpu_address)
  local gpu = setmetatable({
   screen_address = screen_address,
-  gpu_address = gpu_address,
  },{
   __index = component.proxy(gpu_address)
  })
@@ -342,7 +341,7 @@ interfaces = {
     }),
   },
   screens = {
-    control = screen("2de88ee46-c992-440e-9d1c-677c98bc274b", "75a3c337-d529-466a-aa0a-8fcccca3e338"),
+    control = screen("de88ee46-c992-440e-9d1c-677c98bc274b", "75a3c337-d529-466a-aa0a-8fcccca3e338"),
     monitoring = screen("9e72c4d1-1007-4fe9-8fe5-5e095a9e417f", "63aed535-4aab-44cc-a22b-6b8a310cd9bd"),
   },
 }

@@ -7,12 +7,16 @@
 ]]
 
 local event = require 'event'
+local computer = require 'computer'
+
 local CLEANING_TIME = 20.0
 local CHECK_INTERVAL = 1.0
 
 
 return function(tanks, inputs)
  local current = nil, old
+ local blockedUntil = computer.uptime()
+ 
  local function check()
   if new ~= current or current == nil then
    --disable output, start recycling
@@ -26,12 +30,15 @@ return function(tanks, inputs)
    end
    if current ~= nil then
     --*BUSY*
-    os.sleep(CLEANING_TIME)
-    --stop recycling, output is set in next part
-    for _,input in pairs(inputs) do
-     input.recycle = false
-    end
+    blockedUntil = computer.uptime() + CLEANING_TIME
    end
+   --The next lines would let the ingredients flow in the reactor,
+   --but the cleaning is still in progress. -> 
+   return
+  end
+  --stop recycling
+  for _,input in pairs(inputs) do
+   input.recycle = false
   end
   ---set new output state---
   if current ~= nil then
@@ -54,12 +61,11 @@ return function(tanks, inputs)
   old = current
  end
  
- event.timer(0.1,function()
-  while true do
+ event.timer(CHECK_INTERVAL, function()
+  if computer.uptime() > blockedUntil then
    check()
-   os.sleep(CHECK_INTERVAL)
   end
- end)
+ end, math.huge)
  
  return {
   set = function(new)
