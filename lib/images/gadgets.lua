@@ -33,4 +33,4 @@ percentage([[(function()
  end
 end)()
 ]], 105, 11).color = color(0xFFFFFF,0x000000)
-text  ("(reactor.recipe or {}).equation or \"              \"", 125, 7)
+equation  ("(reactor.recipe or {}).equation", 125, 7)

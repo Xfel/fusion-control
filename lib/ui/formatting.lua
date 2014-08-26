@@ -38,6 +38,9 @@ local formats = {
  production_type = {
   length = 8 --"Platinum"
  },
+ equation = {
+  length = 14 --"D + He-3 -> He"
+ },
  energy = {
   grouped = true,
   exponential = false,

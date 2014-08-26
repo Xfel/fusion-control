@@ -142,9 +142,9 @@ function gadgets.me(name, x, y)
  
  local amount = gadgets.item(me_amount(name), 1, 1)
  
- 
  root.add(amount)
  root.color = uicolors.tank.me
+ amount.color = uicolors.tank.me
  return root
 end
 function gadgets.eu(name, x, y)
@@ -157,6 +157,7 @@ function gadgets.eu(name, x, y)
  
  root.add(amount)
  root.color = uicolors.tank.energy
+ amount.color = uicolors.tank.energy
  return root
 end
 function gadgets.text(name, x, y)
@@ -165,6 +166,7 @@ function gadgets.text(name, x, y)
   y = y,
  }
  obj.loadString(name)
+ obj.color = uicolors.default
  return obj
 end
 function gadgets.file(name, x, y)
@@ -173,6 +175,7 @@ function gadgets.file(name, x, y)
   y = y,
  }
  obj.loadFile(name)
+ obj.color = uicolors.default
  return obj
 end
 
