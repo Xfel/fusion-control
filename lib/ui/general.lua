@@ -13,12 +13,9 @@ return function(formatTable, name, x, y)
   y = y,
   width = formatTable.length,
   height = 1,
-  text = setmetatable({},
-  {
-   __tostring = function()
-    return formatting.number(getter(interfaces), formatTable)
-   end
-  }),
- })
+  text = function()
+   return formatting.number(getter(interfaces), formatTable)
+  end,
+ }
  return object
 end

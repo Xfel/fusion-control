@@ -23,7 +23,7 @@ local recipes = {
   rate = -4096,
   ticks = 128,
   result = items.plasma,
-  equation = "D + T -> He",
+  equation = "D + T    -> He",
  },
  fusion_w_li = {
   ingredients = {
@@ -34,7 +34,7 @@ local recipes = {
   rate = -32768,
   ticks = 512,
   result = items.iridium,
-  equation = "W + Li -> Ir",
+  equation = "W + Li   -> Ir",
  },
  fusion_w_be = {
   ingredients = {
@@ -45,7 +45,7 @@ local recipes = {
   rate = -32768,
   ticks = 512,
   result = items.platinum,
-  equation = "W + Be -> Pt",
+  equation = "W + Be   -> Pt",
  },
  centrifuge_deuterium = {
   ingredients = {

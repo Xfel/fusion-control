@@ -12,7 +12,7 @@ local base = function(obj)
  obj.pipeline = {
   --simplified pipeline
   gfx.pipeline_draw,
- },
+ }
  
  function obj.onUpdate()
   obj.updateText()
@@ -24,7 +24,9 @@ local base = function(obj)
   if text == nil then
    return
   end
-  text = tostring(text)
+  if type(text) == "function" then
+   text = text()
+  end
   if text == oldText or text == nil then
    return
   end
