@@ -1,9 +1,8 @@
 local formatConfig = require 'ui.formatting'
-local ui = require 'ui'
-local gfx = require 'gfx'
 local generalGadget = require 'ui.general'
 local interfaces = require 'config.interfaces'
 local uicolors = require 'ui.colors'
+local uibase = require 'ui.base'
 local colors = require 'colors'
 local misc = require 'misc'
 
@@ -67,28 +66,24 @@ local function fixed_color(parent, color)
 end
 local function type_color(parent, color_table, type_path)
  local getter = misc.getter(type_path)
- local function getColor(table)
+ function parent.color()
   local ftype = getter(interfaces) or "default"
-  return table[ftype]
- end
- local lastColor = nil
- function parent.onUpdate()
-  local color = getColor(color_table)
-  --no change, no update
-  if color == lastColor then
-   return
+  local color = color_table[ftype]
+  for _,child in ipairs(parent.list) do
+   --this is a bit dirty (it changes the childrens values from within a parents method)
+   --But it saves a lot of redundant getter calls!
+   child.color = color
   end
-  lastColor = color
-  fixed_color(parent, color)
+  return color
  end
 end
 
 
 function gadgets.tank(name, x, y)
- local root = ui.new(gfx.new{
+ local root = uibase{
   x = x,
   y = y,
- })
+ }
  root.loadUIString("         ", 14, 3)
  
  local ftype = gadgets.fluid_type(fluid_name(name), 2, 1)
@@ -102,10 +97,10 @@ function gadgets.tank(name, x, y)
  return root
 end
 function gadgets.tank_small(name, x, y, title)
- local root = ui.new(gfx.new{
+ local root = uibase{
   x = x,
   y = y,
- })
+ }
  root.loadUIString("         ", 14, 3)
  
  local title = gadgets.text(title, 2, 1)
@@ -122,10 +117,10 @@ function gadgets.tank_small(name, x, y, title)
  return root
 end
 function gadgets.production(name, x, y, title)
- local root = ui.new(gfx.new{
+ local root = uibase{
   x = x,
   y = y,
- })
+ }
  root.loadUIString("         ", 12, 3)
  
  local title = gadgets.text(title, 2, 1)
@@ -140,7 +135,7 @@ function gadgets.production(name, x, y, title)
  return root
 end
 function gadgets.me(name, x, y)
- local root = ui.new{
+ local root = uibase{
   x = x,
   y = y,
  }
@@ -149,11 +144,11 @@ function gadgets.me(name, x, y)
  
  
  root.add(amount)
- fixed_color(root, uicolors.tank.me)
+ root.color = uicolors.tank.me
  return root
 end
 function gadgets.eu(name, x, y)
- local root = ui.new{
+ local root = uibase{
   x = x,
   y = y,
  }
@@ -161,33 +156,25 @@ function gadgets.eu(name, x, y)
  local amount = gadgets.energy(eu_amount(name), 1, 1)
  
  root.add(amount)
- fixed_color(root, uicolors.tank.energy)
+ root.color = uicolors.tank.energy
  return root
 end
 function gadgets.text(name, x, y)
- local obj = ui.new(gfx.new{
+ local obj = uibase{
   x = x,
   y = y,
- })
+ }
  obj.loadString(name)
- function obj.dynamic_color(code)
-  local env = setmetatable({
-   colors = colors,
-   uicolor = uicolors,
-  },{
-   __index = interfaces
-  })
-  
-  local decision = load("return {"..code.."}", nil, nil, env)
-  function obj.onUpdate()
-   for k,v in pairs(decision()) do
-    if k then
-     fixed_color(obj, v)
-    end
-   end
-  end
- end
  return obj
 end
+function gadgets.file(name, x, y)
+ local obj = uibase{
+  x = x,
+  y = y,
+ }
+ obj.loadFile(name)
+ return obj
+end
+
 --TODO: variable text
 return gadgets

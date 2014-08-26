@@ -309,6 +309,9 @@ function gfx.new(obj)
  end
  ----drawing----
  function obj.iteratePipelined(originX, originY, onLine)
+  if obj.lines == nil then
+   return
+  end
   local spaces = obj.spaces or {}
   local y = originY
   for _,line in ipairs(obj.lines) do

@@ -7,6 +7,8 @@ local shell = require 'shell'
 local interfaces = require 'config.interfaces'
 local event = require 'event'
 local fs = require 'filesystem'
+local colors = require 'colors'
+local uicolors = require 'ui.colors'
 
 local _,this_file = ...
 local this_folder = fs.path(this_file)
@@ -24,11 +26,23 @@ local function init()
  })
  root.loadFile(fs.concat(this_folder, "../images/background.txt"), true)
  root.bind(interfaces.screens.monitoring.screen_address, interfaces.screens.monitoring)
- local env = {}
+ local env = setmetatable({
+  math = math,
+  string = string,
+  colors = colors,
+  uicolors = uicolors,
+ },{
+  __index = interfaces,
+ })
+ function env.color(fg, bg)
+  return {foreground = fg, background = bg}
+ end
  for name,gadget in pairs(gadgets) do
   env[name] = function(...)
    local g = gadget(...)
-   root.add(g)
+   if g then
+    root.add(g)
+   end
    return g
   end
  end
