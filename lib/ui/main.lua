@@ -26,18 +26,12 @@ local function init()
  })
  root.loadFile(fs.concat(this_folder, "../images/background.txt"), true)
  root.bind(interfaces.screens.monitoring.screen_address, interfaces.screens.monitoring)
- local env = setmetatable({
-  math = math,
-  string = string,
-  colors = colors,
-  uicolors = uicolors,
- },{
-  __index = interfaces,
- })
+ local env = misc.stdEnv(interfaces)
+ env.uicolors = uicolors
  function env.color(fg, bg)
   return {foreground = fg, background = bg}
  end
- for name,gadget in pairs(gadgets) do
+ for name, gadget in pairs(gadgets) do
   env[name] = function(...)
    local g = gadget(...)
    if g then
@@ -47,7 +41,7 @@ local function init()
   end
  end
  --load ui from file "images/gadgets.lua"
- local loader = assert(loadfile(fs.concat(this_folder, "../images/gadgets.lua") ,nil ,env))
+ local loader = assert(loadfile(fs.concat(this_folder, "../images/gadgets.lua"), nil, env))
  loader()
 end
 local function stop()

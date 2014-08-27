@@ -34,3 +34,13 @@ percentage([[(function()
 end)()
 ]], 105, 11).color = color(0xFFFFFF,0x000000)
 equation  ("(reactor.recipe or {}).equation", 125, 7)
+cycles    ([[function()
+ local recipe = reactor.recipe
+ if recipe then
+  local cycles = math.huge
+  for _, ingredient in ipais(recipe.ingredients) do
+   cycles = math.min(cycles, tanks[ingredient].tank.amount)
+  end
+  return cycles
+ end
+end()]], 125, 9)

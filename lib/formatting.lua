@@ -32,8 +32,8 @@ local exponentialTable = setmetatable({
  end,
 })
 
-local function errorText(length)
- return string.rep("#", length or 1)
+local function errorText(length, char)
+ return string.rep(char or "#", length or 1)
 end
 
 function formatting.number(number, format)
@@ -52,7 +52,7 @@ function formatting.number(number, format)
   return number
  end
  if number == nil then
-  return errorText(length or 1)
+  return errorText(format.length or 1)
  end
  if type(number) ~= "number" then
   number = number()
@@ -66,7 +66,7 @@ function formatting.number(number, format)
  local unit = format.unit or ""
  
  if number == nil then
-  return errorText(length)
+  return errorText(format.length)
  end
  if one then
   number = number / one
@@ -115,7 +115,7 @@ function formatting.number(number, format)
   if #exponent > exponential then
    if string.byte(exponent, 1) ~= string.byte("0", 1) then
     --exponent is too large -> error
-    return errorText(length)
+    return errorText(format.length)
    else
     exponent = string.sub(exponent, -exponential, -1)
    end
@@ -132,13 +132,13 @@ function formatting.number(number, format)
   elseif newSpaceLength == 0 then
    space = ""
   else
-   return errorText(length)
+   return errorText(format.length)
   end
  end
  local result = {sign, space, first, separator, decimals, base, exponent}
  result = table.concat(result)
  if length and #result > length then
-  return errorText(length)
+  return errorText(format.length)
  end
  --combine total number
  return result .. unit

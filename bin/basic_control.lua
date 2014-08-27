@@ -109,12 +109,14 @@ local commands = {
    interfaces.reactor.deuterium_distribution = state
   end
   print("Deuterium distribution: "..tostring(interfaces.reactor.deuterium_distribution))
-  print("Deuterium -> Centrifuges"..stateNames[interfaces.machines.centrifuges.deuterium])
-  print("Deuterium -> Tank"..stateNames[interfaces.tanks.deuterium.input])
+  print("Deuterium -> Centrifuges "..stateNames[interfaces.machines.centrifuges.deuterium])
+  print("Deuterium -> Tank "..stateNames[interfaces.tanks.deuterium.input])
  end,
  tanks = function()
   for id,tank in pairs(interfaces.tanks) do
-   print(tostring(id)..": "..math.floor(tank.tank.amount / 1000))
+   if type(id) == "string" then
+    print(id..": "..math.floor(tank.tank.amount / 1000))
+   end
   end
  end,
  plasma = function(position,state)

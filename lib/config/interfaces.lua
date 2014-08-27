@@ -364,4 +364,9 @@ interfaces.reactor = properties({
  primer = rsBProp("d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"),
 }, interfaces.reactor)
 
+--easier item -> amount lookup
+for _, value in pairs(interfaces.tanks) do
+ interfaces.tanks[value.item] = value
+end
+
 return interfaces
