@@ -86,9 +86,9 @@ local commands = {
  electrolyzer = function(state)
   local value = getStateValue(state)
   if value ~= nil then
-   interfaces.machines.electrolyzer[1].energy = value
+   interfaces.machines.electrolyzers[1].energy = value
   end 
-  print("Electrolyzer "..stateNames[interfaces.machines.electrolyzer[1].energy])
+  print("Electrolyzer "..stateNames[interfaces.machines.electrolyzers[1].energy])
  end,
  cells = function(state)
   local value = getStateValue(state)

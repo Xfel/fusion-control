@@ -71,8 +71,10 @@ local function type_color(parent, color_table, type_path)
   color = color_table[ftype]
   return color
  end
- return function()
-  return color
+ return function(child)
+  function child.color()
+   return color
+  end
  end
 end
 local function sign_color(parent, value_path, positive, negative, default)
@@ -91,8 +93,10 @@ local function sign_color(parent, value_path, positive, negative, default)
   end
   return color
  end
- return function()
-  return color
+ return function(child)
+  function child.color()
+   return color
+  end
  end
 end
 

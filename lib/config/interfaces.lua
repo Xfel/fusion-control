@@ -225,7 +225,7 @@ interfaces = {
      return summarizeRates(interfaces.machines)
     end,
    },{
-    electrolyzer = properties({
+    electrolyzers = properties({
       cells  = rsBProp("8345d5c0-78e4-4e05-99bd-e817ac977252", sides.west),
       rate = function()
        return summarizeRates(interfaces.machines.electrolyzer)
