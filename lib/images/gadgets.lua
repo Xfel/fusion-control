@@ -39,10 +39,8 @@ cycles    ([[(function()
  if recipe then
   local cycles = math.huge
   for _, ingredient in ipairs(recipe.ingredients) do
-local _,err = pcall(function()  
+   print(ingredient.name)
    cycles = math.min(cycles, tanks[ingredient].tank.amount)
-end)
-if err then print(err) end
   end
   return cycles
  end
