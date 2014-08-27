@@ -63,8 +63,8 @@ cycles    ([[(function()
   return cycles
  end
 end)()]], 125, 9)
-cycles     (function()
- local balance = (machines.rate + reactor.rate) / recipe.plasma_energy.total
+cycles    (function()
+ local balance = (machines.rate + reactor.rate) / recipes.plasma_energy.total
  local storage = tanks.plasma.tank.amount
  local reactorOutput = reactor.output
  if reactorOutput.type == items.plasma then
@@ -73,5 +73,8 @@ cycles     (function()
  if balance > 0 then
   return "infinite"
  end
- return -storage / rate
+ local recipe = reactor.recipe
+ if recipe then
+  return -storage / rate / recipe.ticks
+ end
 end, 125, 11)
