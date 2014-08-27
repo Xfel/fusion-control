@@ -33,7 +33,7 @@ item      ("me.platinum",     126, 25)
 --storage
 energy    ("(reactor.recipe or {}).initial", 99, 9)
 energy    ("reactor.energy",      99, 7)
-percentage([[(function()
+percentage(function()
  local current = reactor.energy
  local initial = (reactor.recipe or {}).initial
  if initial then
@@ -44,8 +44,7 @@ percentage([[(function()
  else
   return "N/A"
  end
-end)()
-]], 105, 11)
+end, 105, 11)
 --rate
 energy_balance("machines.electrolyzers.rate", 21, 38)
 energy_balance("machines.centrifuges.rate",   21, 40)
@@ -53,17 +52,19 @@ energy_balance("machines.rate",   21, 42)
 energy_balance("generators.rate", 21, 47)
 ---recipe information
 equation  ("(reactor.recipe or {}).equation", 125, 7)
-cycles    ([[(function()
+cycles(function()
  local recipe = reactor.recipe
  if recipe then
   local cycles = math.huge
   for _, ingredient in ipairs(recipe.ingredients) do
-   cycles = math.min(cycles, tanks[ingredient].tank.amount / 1000.0)
+   local tank = tanks[ingredient].tank
+   local thisReserve = tank.amount / 1000.0
+   cycles = math.min(cycles, thisReserve)
   end
   return cycles
  end
-end)()]], 125, 9)
-cycles    (function()
+end, 125, 9)
+cycles(function()
  local balance = (machines.rate + reactor.rate) / recipes.plasma_energy.total
  local storage = tanks.plasma.tank.amount
  local reactorOutput = reactor.output
@@ -75,6 +76,6 @@ cycles    (function()
  end
  local recipe = reactor.recipe
  if recipe then
-  return -storage / rate / recipe.ticks
+  return -storage / balance / recipe.ticks
  end
 end, 125, 11)
