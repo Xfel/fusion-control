@@ -371,7 +371,7 @@ interfaces.reactor = properties({
   if recipe and enabled then
    return {
     type = recipe.result,
-    amount = 1.0 / recipe.ticks,
+    rate = 1.0 / recipe.ticks,
    }
   end
   return {}
