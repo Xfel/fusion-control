@@ -42,6 +42,6 @@ cycles    ([[(function()
    print(ingredient.name)
    cycles = math.min(cycles, tanks[ingredient].tank.amount)
   end
-  return cycles
+  return cycles / 1000.0
  end
 end)()]], 125, 9)
