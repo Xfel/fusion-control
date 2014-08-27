@@ -7,6 +7,7 @@ local recipes = require 'config.recipes'
 local mixer = require 'config.mixer'
 local distributor = require 'config.distributor'
 local reserve = require 'config.reserve'
+local overflow = require 'config.overflow'
 
 -- einige hilfsfunktionen
 -- generiert eine Metatable, die entsprechende Getter/Setter-Funktionen in __index/__newindex nutzt.
@@ -265,15 +266,10 @@ interfaces = {
 
   --alle Tanks
   tanks = {
-    plasma = properties({
-      tank              = ftiRead("9ab20ca1-7486-4ad1-a68e-948f56924380"),
-      output_reactor    = rsBProp("b9501797-21cb-4f8c-81db-1882aaec8a97",sides.west),
-      output_generators = rsBProp("b9501797-21cb-4f8c-81db-1882aaec8a97",sides.north),
-      output_export     = rsBProp("b9501797-21cb-4f8c-81db-1882aaec8a97",sides.east),
-    },{
+    plasma = {
       mixed             = false,
       item              = items.plasma
-    }),
+    },
     ---fuel
     --energy producing
     deuterium = properties({
@@ -353,6 +349,16 @@ interfaces = {
   },
 }
 
+interfaces.tanks.plasma = properties({
+  tank              = ftiRead("9ab20ca1-7486-4ad1-a68e-948f56924380"),
+  output_reactor    = rsBProp("b9501797-21cb-4f8c-81db-1882aaec8a97", sides.west),
+  output_generators = rsBProp("b9501797-21cb-4f8c-81db-1882aaec8a97", sides.north),
+  output_export     = rsBProp("b9501797-21cb-4f8c-81db-1882aaec8a97", sides.east),
+  reserve = reserve(interfaces.tanks.plasma, "output_export"),
+  overflow = overflow(interfaces.tanks.plasma, "output_export"),
+}, interfaces.tanks.plasma)
+
+
 interfaces.reactor = properties({
  enabled = rsBProp("703394c3-f38b-466a-babf-683f17b71d38", sides.up, nil, "inverted"),
  primer = rsBProp("d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"),
@@ -388,7 +394,6 @@ interfaces.reactor = properties({
   interfaces.tanks.tritium,
   interfaces.machines.centrifuges
  ),
- plasma_reserve = reserve(interfaces.tanks.plasma, "output_export"),
 }, interfaces.reactor)
 
 --easier item -> amount lookup

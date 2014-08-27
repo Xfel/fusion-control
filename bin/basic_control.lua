@@ -143,9 +143,16 @@ local commands = {
  reserve = function(amount)
   local value = tonumber(amount)
   if value ~= nil then
-   interfaces.reactor.plasma_reserve = value * 1000.0
+   interfaces.tanks.plasma.reserve = value * 1000.0
   end
-  print("Plasma Reserve: " .. interfaces.reactor.plasma_reserve / 1000.0)
+  print("Plasma Reserve: " .. interfaces.tanks.plasma.reserve / 1000.0)
+ end,
+ overflow = function(amount)
+  local value = tonumber(amount)
+  if value ~= nil then
+   interfaces.tanks.plasma.overflow = value * 1000.0
+  end
+  print("Plasma Overflow: " .. interfaces.tanks.plasma.overflow / 1000.0)
  end,
 }
 

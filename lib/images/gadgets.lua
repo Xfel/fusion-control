@@ -65,17 +65,19 @@ cycles(function()
  end
 end, 125, 9)
 cycles(function()
- local balance = (machines.rate + reactor.rate) / recipes.plasma_energy.total
- local storage = tanks.plasma.tank.amount
- local reactorOutput = reactor.output
- if reactorOutput.type == items.plasma then
-  balance = balance + reactorOutput.rate
- end
- if balance > 0 then
-  return "infinite"
- end
  local recipe = reactor.recipe
  if recipe then
+  local storage = tanks.plasma.tank.amount + reactor.energy / recipes.plasma_energy.total
+  if not reactor.enabled then
+   storage = math.max(storage - recipe.inital / recipes.plasma_energy.total, 0)
+  end
+  local balance = (machines.rate + recipe.rate) / recipes.plasma_energy.total
+  if recipe.result == items.plasma then
+   balance = balance + 1 / recipe.ticks
+  end
+  if balance > 0 then
+   return "infinite"
+  end
   return -storage / balance / recipe.ticks
  end
 end, 125, 11)

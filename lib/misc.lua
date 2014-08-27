@@ -3,7 +3,7 @@ local colors = require 'colors'
 local misc = {}
 
 function misc.getter(source)
- return assert(load("_ENV = ...;return "..source,nil,nil,{}))
+ return assert(load("local _ENV = ...;return "..source,nil,nil,{}))
 end
 function misc.stdEnv(env)
  return setmetatable({
