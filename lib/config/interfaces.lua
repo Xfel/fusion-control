@@ -322,7 +322,7 @@ interfaces = {
     }),
   },
   --items im ME-System
-  items = properties({
+  me = properties({
    cells      = aeRead(aeTeminalId,items.cells),
    hydrogen   = aeRead(aeTeminalId,items.hydrogen),
    deuterium  = aeRead(aeTeminalId,items.deuterium),
