@@ -5,6 +5,7 @@
 ]]
 local gfx = require 'gfx'
 local ui = require 'ui'
+local uicolors = require 'ui.colors'
 
 
 local base = function(obj)
@@ -13,6 +14,8 @@ local base = function(obj)
   --simplified pipeline
   gfx.pipeline_draw,
  }
+ obj.color = uicolors.default
+ 
  
  function obj.onUpdate()
   obj.updateText()

@@ -9,6 +9,7 @@ local event = require 'event'
 local fs = require 'filesystem'
 local colors = require 'colors'
 local uicolors = require 'ui.colors'
+local misc = require 'misc'
 
 local _,this_file = ...
 local this_folder = fs.path(this_file)
@@ -16,7 +17,10 @@ local this_folder = fs.path(this_file)
 local root
 local function run()
  if root then
-  root.drawAll()
+  local ok, err = pcall(root.drawAll)
+  if not ok then
+   io.stderr:write(err)
+  end
  end
 end
 local function init()

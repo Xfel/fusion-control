@@ -14,6 +14,8 @@ function misc.stdEnv(env)
   tostring = tostring,
   tonumber = tonumber,
   colors = colors,
+  pcall = pcall,
+  print = print,
  },{
   __index = env
  })
