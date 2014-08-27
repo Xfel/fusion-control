@@ -38,14 +38,13 @@ local function fluid_percentage(s)
  return string.gsub("(%.tank.amount / %.tank.capacity)", "%%", s)
 end
 local function production_type(s)
- s = getTable(s)
- return string.gsub("(%.result)", "%%", s)
+ return string.gsub("%.type", "%%", s)
 end
 local function production_name(s)
  return getName(production_type(s))
 end
 local function production_rate(s)
- return string.gsub("(% and (1 / %.ticks) or 0)", "%%", s)
+ return string.gsub("(%.rate or 0)", "%%", s)
 end
 local function me_amount(s)
  return s
@@ -68,13 +67,27 @@ local function type_color(parent, color_table, type_path)
  local getter = misc.getter(type_path)
  function parent.color()
   local ftype = getter(interfaces) or "default"
-  local color = color_table[ftype]
-  for _,child in ipairs(parent.list) do
-   --this is a bit dirty (it changes the childrens values from within a parents method)
-   --But it saves a lot of redundant getter calls!
-   child.color = color
+  return color_table[ftype]
+ end
+end
+local function sign_color(parent, value_path, positive, negative, default)
+ local getter = misc.getter(value_path)
+ function parent.color()
+  local value = getter(interfaces)
+  if type(value) == "number" then
+   if value > 0 then
+    return positive
+   end
+   if value < 0 then
+    return negative
+   end
   end
-  return color
+  return default
+ end
+end
+local function parent_color(child)
+ function child.color()
+  return child.parent.color
  end
 end
 
@@ -91,6 +104,10 @@ function gadgets.tank(name, x, y)
  local percentage = gadgets.percentage(fluid_percentage(name), 9, 3)
  
  type_color(root, uicolors.tank, fluid_type(name))
+ parent_color(ftype)
+ parent_color(amount)
+ parent_color(percentage)
+ 
  root.add(ftype)
  root.add(amount)
  root.add(percentage)
@@ -109,6 +126,10 @@ function gadgets.tank_small(name, x, y, title)
  local percentage = gadgets.percentage(fluid_percentage(name), 9, 3)
  
  type_color(root, uicolors.tank, fluid_type(name))
+ parent_color(title)
+ parent_color(ftype)
+ parent_color(amount)
+ parent_color(percentage)
  
  root.add(title)
  root.add(ftype)
@@ -128,37 +149,24 @@ function gadgets.production(name, x, y, title)
  local prate = gadgets.production_rate(production_rate(name), 4, 3)
  
  type_color(root, uicolors.tank, production_type(name))
+ parent_color(title)
+ parent_color(ptype)
+ parent_color(prate)
  
  root.add(title)
  root.add(ptype)
  root.add(prate)
  return root
 end
-function gadgets.me(name, x, y)
- local root = uibase{
-  x = x,
-  y = y,
- }
- 
- local amount = gadgets.item(me_amount(name), 1, 1)
- 
- root.add(amount)
- root.color = uicolors.tank.me
- amount.color = uicolors.tank.me
- return root
+function gadgets.energy_balance(name, x, y)
+ local obj = gadgets.energy_rate(name, x, y)
+ sign_color(obj, name, uicolors.balance.positive, uicolors.balance.negative, uicolors.balance.default)
+ return obj
 end
-function gadgets.eu(name, x, y)
- local root = uibase{
-  x = x,
-  y = y,
- }
- 
- local amount = gadgets.energy(eu_amount(name), 1, 1)
- 
- root.add(amount)
- root.color = uicolors.tank.energy
- amount.color = uicolors.tank.energy
- return root
+function gadgets.fluid_balance(name, x, y)
+ local obj = gadgets.fluid_rate(name, x, y)
+ sign_color(obj, name, uicolors.balance.positive, uicolors.balance.negative, uicolors.balance.default)
+ return obj
 end
 function gadgets.text(name, x, y)
  local obj = uibase{
@@ -166,7 +174,6 @@ function gadgets.text(name, x, y)
   y = y,
  }
  obj.loadString(name)
- obj.color = uicolors.default
  return obj
 end
 function gadgets.file(name, x, y)
@@ -175,9 +182,7 @@ function gadgets.file(name, x, y)
   y = y,
  }
  obj.loadFile(name)
- obj.color = uicolors.default
  return obj
 end
 
---TODO: variable text
 return gadgets

@@ -39,6 +39,11 @@ local colors = {
   me                 = c(0xFFFFFF,0x000000),
   default            = c(0xFFFFFF,0x000000),
  },
+ balance = {
+  positive           = c(0x00FF00,0x000000),
+  negative           = c(0xFF0000,0x000000),
+  default            = c(0xFFFFFF,0x000000),
+ },
  enabled             = c(0x44FF44,0x000000),
  disabled            = c(0xFF2222,0x000000),
  temporary           = c(0xFFFF44,0x000000),

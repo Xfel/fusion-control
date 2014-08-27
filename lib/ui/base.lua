@@ -14,7 +14,7 @@ local base = function(obj)
   --simplified pipeline
   gfx.pipeline_draw,
  }
- obj.color = uicolors.default
+ obj.color = obj.color or uicolors.default
  
  
  function obj.onUpdate()

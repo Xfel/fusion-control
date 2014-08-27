@@ -1,7 +1,7 @@
 -- imports
 local component = require 'component'
 local sides = require 'sides'
-local colors = require 'colors'
+local uicolors = require 'ui.colors'
 local items = require 'config.items'
 local recipes = require 'config.recipes'
 local mixer = require 'config.mixer'
@@ -103,7 +103,7 @@ end
 
 -------------------------- APPLIED ENERGISTICS --------------------------
 -- erzeugt eine Funktion, die die Menge an items des gegebenen typs ausliest.
-function aeRead(address, item)
+local function aeRead(address, item)
   return function()
     return component.invoke(address, "countOfItemType", item.id, item.damage)
   end
@@ -111,7 +111,7 @@ end
 
 -------------------------- FLUID TANKS --------------------------
 
-function ftiRead(address)
+local function ftiRead(address)
   return function()
     local ti = component.invoke(address, "getTankInfo")
     
@@ -119,27 +119,27 @@ function ftiRead(address)
   end
 end
 
-function ftiAmountRead(address)
+local function ftiAmountRead(address)
   return function()
     return component.invoke(address, "getTankInfo").amount
   end
 end
 
-function ftiTypeRead(address)
+local function ftiTypeRead(address)
   return function()
     return items.fromFluidId(component.invoke(address, "getTankInfo").id)
   end
 end
 
 -------------------------- ENERGY --------------------------
-function euRead(address)
+local function euRead(address)
   return function()
     return component.invoke(address, "getStored")
   end
 end
 
 -------------------------- MACHINES ------------------------
-function centrifuge(redstone_address, recipe)
+local function centrifuge(redstone_address, recipe)
  local cen
  cen = properties({
   energy = rsBProp(redstone_address, sides.up, nil, "inverted"),
@@ -158,7 +158,7 @@ function centrifuge(redstone_address, recipe)
  })
  return cen
 end
-function electrolyzer(redstone_address)
+local function electrolyzer(redstone_address)
  local el
  el = properties({
   energy = rsBProp(redstone_address, sides.north, nil, "inverted"),
@@ -172,12 +172,33 @@ function electrolyzer(redstone_address)
     return 0
    end
   end,
- 
  })
+ return el
+end
+local function generator(address, side)
+ local gen
+ gen = properties({
+  enabled = rsBProp(address,side),
+  rate    = function()
+   if gen.enabled then
+    return 2048
+   else
+    return 0
+   end
+  end,
+ })
+ return gen
+end
+local function summarizeRates(list)
+ local sum = 0
+ for _,machine in pairs(list) do
+  sum = sum + machine.rate
+ end
+ return sum
 end
 
 --------------------------- SCREEN -------------------------
-function screen(screen_address, gpu_address)
+local function screen(screen_address, gpu_address)
  local gpu = setmetatable({
   screen_address = screen_address,
  },{
@@ -194,12 +215,20 @@ end
 local aeTeminalId = "dffb6dd3-ca32-4240-9ea8-aa8952e52691"
 local interfaces
 interfaces = {
+  -- Referenzen zu Datenbanken
+  items = items,
+  recipes = recipes,
+  uicolors = uicolors,
   -- Maschinen
-  machines = {
+  machines = properties({
+    rate = function()
+     return summarizeRates(interfaces.machines)
+    end,
+   },{
     electrolyzer = properties({
       cells  = rsBProp("8345d5c0-78e4-4e05-99bd-e817ac977252", sides.west),
       rate = function()
-       return interfaces.electrolyzer[1].rate
+       return summarizeRates(interfaces.machines.electrolyzer)
       end,
      },{
       [1] = electrolyzer("8345d5c0-78e4-4e05-99bd-e817ac977252"),
@@ -208,11 +237,7 @@ interfaces = {
       hydrogen  = rsBProp("64859669-a8b4-4dd2-97be-2f311f91f261", sides.north),
       deuterium = rsBProp("abcf2e38-dcb7-41cf-b664-664f45ce4ebc", sides.south),
       rate = function()
-       local sum = 0
-       for _,cen in ipairs(interfaces.centrifuges) do
-        sum = sum + cen.rate
-       end
-       return sum
+       return summarizeRates(interfaces.machines.centrifuges)
       end,
      },{
       [1] = centrifuge("f7018da2-3a0c-4a05-a141-78e5c6098179", recipes.centrifuge_deuterium),
@@ -222,21 +247,10 @@ interfaces = {
       [5] = centrifuge("64859669-a8b4-4dd2-97be-2f311f91f261", recipes.centrifuge_deuterium),
       [6] = centrifuge("abcf2e38-dcb7-41cf-b664-664f45ce4ebc", recipes.centrifuge_tritium),
     }),
-  },
+  }),
   
   --alle Reaktorkomponenten
   reactor = {
-    computer = properties({
-      energy = euRead("7e5a3837-9cf2-4998-b447-92cd1b83868d"),
-      enabled = rsBProp("703394c3-f38b-466a-babf-683f17b71d38", sides.up, nil, "inverted"),
-      rate = function()
-       local recipe=interfaces.reactor.recipe
-       if recipe and enabled then
-        return recipe.rate
-       end
-       return 0
-      end,
-    }),
     input_west = properties({
       tank    = ftiRead("60e72361-042a-4848-90fe-3f3f73db6879"),
       recycle = rsBProp("5ffa5a21-3b68-4d43-88bd-afb5b29a93bf",sides.up),
@@ -323,24 +337,16 @@ interfaces = {
    platinum   = aeRead(aeTeminalId,items.platinum),
   }),
   --4 Generatoren
-  generators = {
-    [1] = properties({
-      enabled = rsBProp("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.west),
-      rate    = 2048,
-    }),
-    [2] = properties({
-      enabled = rsBProp("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.south),
-      rate    = 2048,
-    }),
-    [3] = properties({
-      enabled = rsBProp("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.east),
-      rate    = 2048,
-    }),
-    [4] = properties({
-      enabled = rsBProp("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.north),
-      rate    = 2048,
-    }),
-  },
+  generators = properties({
+    rate = function()
+     return summarizeRates(interfaces.generators)
+    end,
+   },{
+    [1] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.west),
+    [2] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.south),
+    [3] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.east),
+    [4] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.north),
+  }),
   screens = {
     control = screen("de88ee46-c992-440e-9d1c-677c98bc274b", "75a3c337-d529-466a-aa0a-8fcccca3e338"),
     monitoring = screen("9e72c4d1-1007-4fe9-8fe5-5e095a9e417f", "63aed535-4aab-44cc-a22b-6b8a310cd9bd"),
@@ -348,6 +354,28 @@ interfaces = {
 }
 
 interfaces.reactor = properties({
+ enabled = rsBProp("703394c3-f38b-466a-babf-683f17b71d38", sides.up, nil, "inverted"),
+ primer = rsBProp("d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"),
+ energy = euRead("7e5a3837-9cf2-4998-b447-92cd1b83868d"),
+ rate = function()
+  local recipe = interfaces.reactor.recipe
+  local enabled = interfaces.reactor.enabled
+  if recipe and enabled then
+   return recipe.rate
+  end
+  return 0
+ end,
+ output = function()
+  local recipe = interfaces.reactor.recipe
+  local enabled = interfaces.reactor.enabled
+  if recipe and enabled then
+   return {
+    type = recipe.result,
+    amount = 1.0 / recipe.ticks,
+   }
+  end
+  return {}
+ end,
  recipe = mixer(
   interfaces.tanks,
   {
@@ -361,7 +389,6 @@ interfaces.reactor = properties({
   interfaces.machines.centrifuges
  ),
  plasma_reserve = reserve(interfaces.tanks.plasma, "output_export"),
- primer = rsBProp("d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"),
 }, interfaces.reactor)
 
 --easier item -> amount lookup

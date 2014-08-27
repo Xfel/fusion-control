@@ -1,15 +1,15 @@
 
 local gadgets = require 'ui.gadgets'
-local ui = require 'ui'
-local gfx = require 'gfx'
 local os = require 'os'
 local shell = require 'shell'
 local interfaces = require 'config.interfaces'
 local event = require 'event'
 local fs = require 'filesystem'
 local colors = require 'colors'
+local uibase = require 'ui.base'
 local uicolors = require 'ui.colors'
 local misc = require 'misc'
+
 
 local _,this_file = ...
 local this_folder = fs.path(this_file)
@@ -24,14 +24,13 @@ local function run()
  end
 end
 local function init()
- root = ui.root(gfx.new{
+ root = uibase{
   x = 1,
   y = 1,
- })
+ }
  root.loadFile(fs.concat(this_folder, "../images/background.txt"), true)
  root.bind(interfaces.screens.monitoring.screen_address, interfaces.screens.monitoring)
  local env = misc.stdEnv(interfaces)
- env.uicolors = uicolors
  function env.color(fg, bg)
   return {foreground = fg, background = bg}
  end

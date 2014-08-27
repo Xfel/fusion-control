@@ -1,3 +1,5 @@
+local uicolors = require 'ui.colors'
+
 local formats = {
  fluid = {
   grouped = true,
@@ -48,6 +50,7 @@ local formats = {
   length = 11, --"160 000 kEU"
   unit = "kEU",
   one = 1000,
+  color = uicolors.tank.energy,
  },
  energy_rate = {
   grouped = true,
@@ -62,6 +65,7 @@ local formats = {
   precision = 0,
   length = 9, --"1 000 000"
   unit = nil,
+  color = uicolors.tank.me,
  },
  cycles = {
   grouped = true,
@@ -70,15 +74,13 @@ local formats = {
   length = 16, --"1 000 000 cycles"
   unit = "cycles",
  },
- percentage ={
+ percentage = {
   grouped = false,
   exponential = false,
   precision = 0,
   length = 5, --"100 %"
   unit = "%",
   one = 0.01,
- },
- text = {
  },
 }
 

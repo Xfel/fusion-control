@@ -24,6 +24,7 @@ return function(formatTable, name, x, y)
   y = y,
   width = formatTable.length,
   height = 1,
+  color = formatTable.color,
   text = function()
    return formatting.number(value(), formatTable)
   end,

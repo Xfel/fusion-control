@@ -17,9 +17,9 @@ local special_chars={
 }
 
 local function evaluate(txt,env)
- local func,err = load("return "..txt,nil,nil,env)
+ local func, err = load("return "..txt,nil,nil,env)
  if func then
-  local ok,val=pcall(func)
+  local ok, val = pcall(func)
   if ok then
    return val
   else
@@ -61,9 +61,9 @@ local commands = {
  turn = function(state)
   local value = getStateValue(state)
   if value ~= nil then
-   interfaces.reactor.computer.enabled = value
+   interfaces.reactor.enabled = value
   end
-  print("Reactor "..stateNames[interfaces.reactor.computer.enabled])
+  print("Reactor "..stateNames[interfaces.reactor.enabled])
  end,
  generator = function(nr, state)
   nr = evaluate(nr)
