@@ -65,29 +65,34 @@ local function fixed_color(parent, color)
 end
 local function type_color(parent, color_table, type_path)
  local getter = misc.getter(type_path)
+ local color
  function parent.color()
   local ftype = getter(interfaces) or "default"
-  return color_table[ftype]
+  color = color_table[ftype]
+  return color
+ end
+ return function()
+  return color
  end
 end
 local function sign_color(parent, value_path, positive, negative, default)
  local getter = misc.getter(value_path)
+ local color
  function parent.color()
   local value = getter(interfaces)
+  color = default
   if type(value) == "number" then
    if value > 0 then
-    return positive
+    color = positive
    end
    if value < 0 then
-    return negative
+    color = negative
    end
   end
-  return default
+  return color
  end
-end
-local function parent_color(child)
- function child.color()
-  return child.parent.color
+ return function()
+  return color
  end
 end
 
@@ -103,10 +108,10 @@ function gadgets.tank(name, x, y)
  local amount = gadgets.fluid(fluid_amount(name), 3, 2)
  local percentage = gadgets.percentage(fluid_percentage(name), 9, 3)
  
- type_color(root, uicolors.tank, fluid_type(name))
- parent_color(ftype)
- parent_color(amount)
- parent_color(percentage)
+ local child_color = type_color(root, uicolors.tank, fluid_type(name))
+ child_color(ftype)
+ child_color(amount)
+ child_color(percentage)
  
  root.add(ftype)
  root.add(amount)
@@ -126,10 +131,10 @@ function gadgets.tank_small(name, x, y, title)
  local percentage = gadgets.percentage(fluid_percentage(name), 9, 3)
  
  type_color(root, uicolors.tank, fluid_type(name))
- parent_color(title)
- parent_color(ftype)
- parent_color(amount)
- parent_color(percentage)
+ child_color(title)
+ child_color(ftype)
+ child_color(amount)
+ child_color(percentage)
  
  root.add(title)
  root.add(ftype)
@@ -149,9 +154,9 @@ function gadgets.production(name, x, y, title)
  local prate = gadgets.production_rate(production_rate(name), 4, 3)
  
  type_color(root, uicolors.tank, production_type(name))
- parent_color(title)
- parent_color(ptype)
- parent_color(prate)
+ child_color(title)
+ child_color(ptype)
+ child_color(prate)
  
  root.add(title)
  root.add(ptype)
