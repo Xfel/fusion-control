@@ -24,10 +24,10 @@ local function run()
  end
 end
 local function init()
- root = uibase{
+ root = uibase({
   x = 1,
   y = 1,
- }
+ }, true)
  root.loadFile(fs.concat(this_folder, "../images/background.txt"), true)
  root.bind(interfaces.screens.monitoring.screen_address, interfaces.screens.monitoring)
  local env = misc.stdEnv(interfaces)

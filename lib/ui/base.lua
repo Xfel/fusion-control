@@ -8,8 +8,13 @@ local ui = require 'ui'
 local uicolors = require 'ui.colors'
 
 
-local base = function(obj)
- obj = ui.new(gfx.new(obj))
+local base = function(obj, isRoot)
+ obj = gfx.new(obj)
+ if isRoot then
+  obj = ui.root(obj)
+ else
+  obj = ui.new(obj)
+ end
  obj.pipeline = {
   --simplified pipeline
   gfx.pipeline_draw,
