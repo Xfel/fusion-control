@@ -55,8 +55,9 @@ local formats = {
  energy_rate = {
   grouped = true,
   exponential = false,
+  positiveSign = "+",
   precision = 0,
-  length = 10, --"8 192 EU/t"
+  length = 11, --"+8 192 EU/t"
   unit = "EU/t",
  },
  item = {
