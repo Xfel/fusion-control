@@ -10,8 +10,8 @@ function files.open(name, ...)
 end
 function files.readAll(name)
  local stream = assert(files.open(name))
- local text = stream.read("*a")
- stream.close()
+ local text = stream:read("*a")
+ stream:close()
  return text
 end
 

@@ -67,6 +67,7 @@
 
 local misc = require 'misc'
 local colors = require 'colors'
+local unicode = require 'unicode'
 
 local gfx={}
 
@@ -126,7 +127,7 @@ local function initToken(x, y, text, isSpace)
   text = text,
   isSpace = isSpace,
   skip = 0,
-  length = #text,
+  length = unicode.len(text),
   foreground = nil,
   background = nil,
  }
@@ -197,7 +198,7 @@ function gfx.new(obj)
    if isSpace then
     spaces[token] = true
    end
-   width = width + #token
+   width = width + unicode.len(token)
    maxWidth = math.max(width, maxWidth)
   end
   --go through all lines
@@ -287,7 +288,7 @@ function gfx.new(obj)
        if replacements.n > 0 then
         --1st: not replaced
         if from < begin then
-         add(string.sub(token, from, begin - 1))
+         add(unicode.sub(token, from, begin - 1))
         end
         --2nd: replaced
         for _,replacement in ipairs(replacements) do
@@ -297,10 +298,11 @@ function gfx.new(obj)
        end
       end
      end
-     if from >= #token then
+     local len = unicode.len(token)
+     if from >= len then
       remove()
      elseif from > 1 then
-      line[index] = string.sub(token, from, #token)
+      line[index] = unicode.sub(token, from, len)
      end
     end
     index = index + 1
@@ -324,7 +326,7 @@ function gfx.new(obj)
     n = n + 1
     --summarize all known information in one table
     lineData[n] = initToken(x, y, text, spaces[text])
-    x = x + #text
+    x = x + unicode.len(text)
    end --for _,token in ipairs(line) do
    lineData.n = n
    --execute action
@@ -515,7 +517,7 @@ function gfx.pipeline_draw(data)
     gpu.setForeground(foreground)
    end
    
-   text = string.sub(text, data.skip + 1, data.skip + data.length)
+   text = unicode.sub(text, data.skip + 1, data.skip + data.length)
    -- drawing
    gpu.set(data.x, data.y, text)
   elseif text and data.length > 0 then
