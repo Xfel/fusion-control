@@ -5,6 +5,7 @@ local uicolors = require 'ui.colors'
 local uibase = require 'ui.base'
 local colors = require 'colors'
 local misc = require 'misc'
+local files = require 'files'
 
 local function wrapGadget(format)
  return function(...)
@@ -101,18 +102,18 @@ local function sign_color(parent, value_path, positive, negative, default)
 end
 
 
-function gadgets.tank(name, x, y)
+function gadgets.tank(path, x, y)
  local root = uibase{
   x = x,
   y = y,
  }
  root.loadUIString("         ", 14, 3)
  
- local ftype = gadgets.fluid_type(fluid_name(name), 2, 1)
- local amount = gadgets.fluid(fluid_amount(name), 3, 2)
- local percentage = gadgets.percentage(fluid_percentage(name), 9, 3)
+ local ftype = gadgets.fluid_type(fluid_name(path), 2, 1)
+ local amount = gadgets.fluid(fluid_amount(path), 3, 2)
+ local percentage = gadgets.percentage(fluid_percentage(path), 9, 3)
  
- local child_color = type_color(root, uicolors.tank, fluid_type(name))
+ local child_color = type_color(root, uicolors.tank, fluid_type(path))
  child_color(ftype)
  child_color(amount)
  child_color(percentage)
@@ -122,7 +123,7 @@ function gadgets.tank(name, x, y)
  root.add(percentage)
  return root
 end
-function gadgets.tank_small(name, x, y, title)
+function gadgets.tank_small(path, x, y, title)
  local root = uibase{
   x = x,
   y = y,
@@ -130,11 +131,11 @@ function gadgets.tank_small(name, x, y, title)
  root.loadUIString("         ", 14, 3)
  
  local title = gadgets.text(title, 2, 1)
- local ftype = gadgets.fluid_type(fluid_name(name), 3, 2)
- local amount = gadgets.fluid_small(fluid_amount(name), 3, 3)
- local percentage = gadgets.percentage(fluid_percentage(name), 9, 3)
+ local ftype = gadgets.fluid_type(fluid_name(path), 3, 2)
+ local amount = gadgets.fluid_small(fluid_amount(path), 3, 3)
+ local percentage = gadgets.percentage(fluid_percentage(path), 9, 3)
  
- local child_color = type_color(root, uicolors.tank, fluid_type(name))
+ local child_color = type_color(root, uicolors.tank, fluid_type(path))
  child_color(title)
  child_color(ftype)
  child_color(amount)
@@ -146,7 +147,7 @@ function gadgets.tank_small(name, x, y, title)
  root.add(percentage)
  return root
 end
-function gadgets.production(name, x, y, title)
+function gadgets.production(path, x, y, title)
  local root = uibase{
   x = x,
   y = y,
@@ -154,10 +155,10 @@ function gadgets.production(name, x, y, title)
  root.loadUIString("         ", 12, 3)
  
  local title = gadgets.text(title, 2, 1)
- local ptype = gadgets.production_type(production_name(name), 3, 2)
- local prate = gadgets.production_rate(production_rate(name), 4, 3)
+ local ptype = gadgets.production_type(production_name(path), 3, 2)
+ local prate = gadgets.production_rate(production_rate(path), 4, 3)
  
- local child_color = type_color(root, uicolors.tank, production_type(name))
+ local child_color = type_color(root, uicolors.tank, production_type(path))
  child_color(title)
  child_color(ptype)
  child_color(prate)
@@ -167,30 +168,30 @@ function gadgets.production(name, x, y, title)
  root.add(prate)
  return root
 end
-function gadgets.energy_balance(name, x, y)
- local obj = gadgets.energy_rate(name, x, y)
- sign_color(obj, name, uicolors.balance.positive, uicolors.balance.negative, uicolors.balance.default)
+function gadgets.energy_balance(path, x, y)
+ local obj = gadgets.energy_rate(path, x, y)
+ sign_color(obj, path, uicolors.balance.positive, uicolors.balance.negative, uicolors.balance.default)
  return obj
 end
-function gadgets.fluid_balance(name, x, y)
- local obj = gadgets.fluid_rate(name, x, y)
- sign_color(obj, name, uicolors.balance.positive, uicolors.balance.negative, uicolors.balance.default)
+function gadgets.fluid_balance(path, x, y)
+ local obj = gadgets.fluid_rate(path, x, y)
+ sign_color(obj, path, uicolors.balance.positive, uicolors.balance.negative, uicolors.balance.default)
  return obj
 end
-function gadgets.text(name, x, y)
+function gadgets.text(text, x, y)
  local obj = uibase{
   x = x,
   y = y,
  }
- obj.loadString(name)
+ obj.loadString(text)
  return obj
 end
-function gadgets.file(name, x, y)
+function gadgets.file(file, x, y)
  local obj = uibase{
   x = x,
   y = y,
  }
- obj.loadFile(name)
+ obj.loadFile(files.resolve(file))
  return obj
 end
 

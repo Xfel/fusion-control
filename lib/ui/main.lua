@@ -4,15 +4,12 @@ local os = require 'os'
 local shell = require 'shell'
 local interfaces = require 'config.interfaces'
 local event = require 'event'
-local fs = require 'filesystem'
+local files = require 'files'
 local colors = require 'colors'
 local uibase = require 'ui.base'
 local uicolors = require 'ui.colors'
 local misc = require 'misc'
 
-
-local _,this_file = ...
-local this_folder = fs.path(this_file)
 
 local root
 local function run()
@@ -28,7 +25,7 @@ local function init()
   x = 1,
   y = 1,
  }, true)
- root.loadFile(fs.concat(this_folder, "../images/background.txt"), true)
+ root.loadFile(files.resolve("images/background.txt"), true)
  root.bind(interfaces.screens.monitoring.screen_address, interfaces.screens.monitoring)
  local env = misc.stdEnv(interfaces)
  function env.color(fg, bg)
@@ -44,13 +41,13 @@ local function init()
   end
  end
  --load ui from file "images/gadgets.lua"
- local loader = assert(loadfile(fs.concat(this_folder, "../images/gadgets.lua"), nil, env))
+ local loader = assert(loadfile(files.resolve("images/gadgets.lua"), nil, env))
  loader()
 end
 local function stop()
  root = nil
 end
-event.timer(5,run,math.huge)
+event.timer(5, run, math.huge)
 return {
  init = init,
  stop = stop,

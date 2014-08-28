@@ -8,7 +8,7 @@ local ui = require 'ui'
 local uicolors = require 'ui.colors'
 
 
-local base = function(obj, isRoot)
+local base = function(obj, isRoot, ignoreSpace)
  obj = gfx.new(obj)
  if isRoot then
   obj = ui.root(obj)
@@ -39,7 +39,7 @@ local base = function(obj, isRoot)
    return
   end
   oldText = text
-  obj.loadString(text, true)
+  obj.loadString(text, not ignoreSpace)
   obj.needsRedraw = true
  end
  local oldColor
