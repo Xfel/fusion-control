@@ -8,7 +8,7 @@ local misc = {}
 --(use files.open with a relative path)
 local _, this_file = ...
 local lib_dir = fs.path(this_file)
-shell.setPath(shell.getPath() .. ":" .. lib_dir)
+shell.setPath(lib_dir .. ":" .. shell.getPath())
 
 function misc.getter(source)
  return assert(load("local _ENV = ...;return "..source,nil,nil,{}))
@@ -25,7 +25,7 @@ function misc.stdEnv(env, dir)
   colors = colors,
   pcall = pcall,
   print = print,
-  readAll = files.readAll,
+  import = files.readAll,
  },{
   __index = env
  })

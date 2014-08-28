@@ -183,15 +183,15 @@ function gadgets.text(text, x, y)
   x = x,
   y = y,
  }
- obj.loadString(text)
+ obj.text = text
  return obj
 end
-function gadgets.file(file, x, y)
- local obj = uibase{
+function gadgets.image(text, x, y)
+ local obj = uibase({
   x = x,
   y = y,
- }
- obj.loadFile(files.resolve(file))
+ }, false, true) --spaces are not drawn
+ obj.text = text
  return obj
 end
 

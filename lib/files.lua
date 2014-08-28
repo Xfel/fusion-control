@@ -1,8 +1,8 @@
-local fs = require 'shell'
+local shell = require 'shell'
 local files = {}
 
 function files.resolve(name)
- return shell.resolve(name) or name
+ return shell.resolve(name, "")
 end
 function files.open(name, ...)
  local name = files.resolve(name)

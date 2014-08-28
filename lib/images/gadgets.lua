@@ -82,10 +82,10 @@ cycles(function()
  end
 end, 125, 11)
 ---pipes / cables
-file("images/pipes_input_east.txt", 21, 10).color = function()
+image(import("images/pipes_input_east.txt"), 21, 10).color = function()
  return uicolors.pipe[reactor.input_east.tank.type or "default"]
 end
-file("images/pipes_input_west.txt", 21, 20).color = function()
+image(image("images/pipes_input_west.txt"), 21, 20).color = function()
  return uicolors.pipe[reactor.input_west.tank.type or "default"]
 end
 ---machines

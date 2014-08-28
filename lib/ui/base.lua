@@ -15,12 +15,18 @@ local base = function(obj, isRoot, ignoreSpace)
  else
   obj = ui.new(obj)
  end
- obj.pipeline = {
-  --simplified pipeline
-  gfx.pipeline_draw,
- }
+ if ignoreSpace then
+  obj.pipeline = {
+   gfx.pipeline_skip_space,
+   gfx.pipeline_draw,
+  }
+ else
+  obj.pipeline = {
+   --simplified pipeline
+   gfx.pipeline_draw,
+  }
+ end
  obj.color = obj.color or uicolors.default
- 
  
  function obj.onUpdate()
   obj.updateText()
