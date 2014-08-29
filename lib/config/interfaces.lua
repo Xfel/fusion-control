@@ -397,8 +397,12 @@ interfaces.reactor = properties({
 }, interfaces.reactor)
 
 --easier item -> amount lookup
+local newTanks = {}
 for _, value in pairs(interfaces.tanks) do
- interfaces.tanks[value.item] = value
+ newTanks[value.item] = value
+end
+for k,v in pairs(newTanks) do
+ interfaces.tanks[k] = v
 end
 
 return interfaces

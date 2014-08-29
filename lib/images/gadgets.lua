@@ -69,7 +69,7 @@ cycles(function()
  if recipe then
   local storage = tanks.plasma.tank.amount + reactor.energy / recipes.plasma_energy.total
   if not reactor.enabled then
-   storage = math.max(storage - recipe.inital / recipes.plasma_energy.total, 0)
+   storage = math.max(storage - recipe.initial / recipes.plasma_energy.total, 0)
   end
   local balance = (machines.rate + recipe.rate) / recipes.plasma_energy.total
   if recipe.result == items.plasma then
