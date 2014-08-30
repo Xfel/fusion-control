@@ -118,9 +118,9 @@ image(import("images/pipes_tritium.txt"), 48, 13).color = function()
 end
 image(import("images/pipes_hydrogen_from_electrolyzers.txt"), 75, 35).color = function()
  local color = uicolors.pipe.default
- for _, cen in ipairs(machines.electrolyzers) do
-  if cen.recipe.result == items.hydrogen then
-   if cen.running then
+ for _, el in ipairs(machines.electrolyzers) do
+  if el.recipe.result == items.hydrogen then
+   if el.running then
     color = uicolors.pipe[items.hydrogen]
    end
   end

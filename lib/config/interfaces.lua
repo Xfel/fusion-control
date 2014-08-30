@@ -155,17 +155,17 @@ local function centrifuge(redstone_address, recipe, requiredProperty)
   end,
   rate = function()
    if cen.running then
-    return -300 --TODO: determine via recipe
+    return -recipe.rate
    else
     return 0
    end
   end,
+ },{
   recipe = recipe,
-  count = 12,
  })
  return cen
 end
-local function electrolyzer(redstone_address, requiredProperty)
+local function electrolyzer(redstone_address, recipe, requiredProperty)
  local requiredGetter = misc.getter(requiredProperty)
  local el
  el = properties({
@@ -175,11 +175,13 @@ local function electrolyzer(redstone_address, requiredProperty)
   end,
   rate = function()
    if el.running then
-    return -5880 --TODO: determine via recipe
+    return -recipe.rate
    else
     return 0
    end
   end,
+ },{
+  recipe = recipe
  })
  return el
 end
@@ -242,7 +244,7 @@ interfaces = {
        return summarizeRates(interfaces.machines.electrolyzers)
       end,
      },{
-      [1] = electrolyzer("8345d5c0-78e4-4e05-99bd-e817ac977252", "machines.electrolyzers.cells"),
+      [1] = electrolyzer("8345d5c0-78e4-4e05-99bd-e817ac977252", recipes.electrolyzer_hydrogen, "machines.electrolyzers.cells"),
     }),
     centrifuges = properties({
       hydrogen  = rsBProp("64859669-a8b4-4dd2-97be-2f311f91f261", sides.north),
