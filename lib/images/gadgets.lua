@@ -88,6 +88,65 @@ end
 image(import("images/pipes_input_west.txt"), 21, 20).color = function()
  return uicolors.pipe[reactor.input_west.tank.type or "default"]
 end
+image(import("images/pipes_deuterium.txt"), 48, 19).color = function()
+ local color = uicolors.pipe.default
+ for _, cen in ipairs(machines.centrifuges) do
+  if cen.recipe.result == items.deuterium then
+   if cen.running then
+    color = uicolors.pipe[items.deuterium]
+   end
+  end
+ end
+ if me.deuterium > 0 then
+  color = uicolors.pipe[items.deuterium]
+ end
+ return color
+end
+image(import("images/pipes_tritium.txt"), 48, 13).color = function()
+ local color = uicolors.pipe.default
+ for _, cen in ipairs(machines.centrifuges) do
+  if cen.recipe.result == items.tritium then
+   if cen.running then
+    color = uicolors.pipe[items.tritium]
+   end
+  end
+ end
+ if me.tritium > 0 then
+  color = uicolors.pipe[items.tritium]
+ end
+ return color
+end
+image(import("images/pipes_hydrogen_from_electrolyzers.txt"), 75, 35).color = function()
+ local color = uicolors.pipe.default
+ for _, cen in ipairs(machines.electrolyzers) do
+  if cen.recipe.result == items.hydrogen then
+   if cen.running then
+    color = uicolors.pipe[items.hydrogen]
+   end
+  end
+ end
+ return color
+end
+image(import("images/pipes_hydrogen_from_tank.txt"), 93, 35).color = function()
+ local color = uicolors.pipe.default
+ local available = false
+ for _, cen in ipairs(machines.electrolyzers) do
+  if cen.recipe.result == items.hydrogen then
+   if cen.running then
+    available = true
+   end
+  end
+ end
+ if me.hydrogen > 0 then
+  available = true
+ end
+ if available and machines.centrifuges.hydrogen then
+  color = uicolors.pipe[items.hydrogen]
+ end
+ return color
+end
+image(import("images/pipes_water.txt"), 60, 37).color = color(0x4444FF,0x000000)
+
 ---machines
 
 ---labels

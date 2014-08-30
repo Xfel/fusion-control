@@ -1,6 +1,7 @@
 -- imports
 local component = require 'component'
 local sides = require 'sides'
+local misc = require 'misc'
 local uicolors = require 'ui.colors'
 local items = require 'config.items'
 local recipes = require 'config.recipes'
@@ -8,6 +9,10 @@ local mixer = require 'config.mixer'
 local distributor = require 'config.distributor'
 local reserve = require 'config.reserve'
 local overflow = require 'config.overflow'
+
+--die library Variable
+local interfaces
+
 
 -- einige hilfsfunktionen
 -- generiert eine Metatable, die entsprechende Getter/Setter-Funktionen in __index/__newindex nutzt.
@@ -140,16 +145,17 @@ local function euRead(address)
 end
 
 -------------------------- MACHINES ------------------------
-local function centrifuge(redstone_address, recipe)
+local function centrifuge(redstone_address, recipe, requiredProperty)
+ local requiredGetter = misc.getter(requiredProperty)
  local cen
  cen = properties({
   energy = rsBProp(redstone_address, sides.up, nil, "inverted"),
-  enabled = function()
-   return cen.energy
+  running = function()
+   return cen.energy and requiredGetter(interfaces)
   end,
   rate = function()
-   if cen.enabled then
-    return -300
+   if cen.running then
+    return -300 --TODO: determine via recipe
    else
     return 0
    end
@@ -159,16 +165,17 @@ local function centrifuge(redstone_address, recipe)
  })
  return cen
 end
-local function electrolyzer(redstone_address)
+local function electrolyzer(redstone_address, requiredProperty)
+ local requiredGetter = misc.getter(requiredProperty)
  local el
  el = properties({
   energy = rsBProp(redstone_address, sides.north, nil, "inverted"),
-  enabled = function()
-   return el.energy
+  running = function()
+   return el.energy and requiredGetter(interfaces)
   end,
   rate = function()
-   if el.enabled then
-    return -5880
+   if el.running then
+    return -5880 --TODO: determine via recipe
    else
     return 0
    end
@@ -176,12 +183,16 @@ local function electrolyzer(redstone_address)
  })
  return el
 end
-local function generator(address, side)
+local function generator(address, side, requiredProperty)
+ local requiredGetter = misc.getter(requiredProperty)
  local gen
  gen = properties({
   enabled = rsBProp(address,side),
+  running = function()
+   return gen.enabled and requiredGetter(interfaces)
+  end,
   rate    = function()
-   if gen.enabled then
+   if gen.running then
     return 2048
    else
     return 0
@@ -214,7 +225,6 @@ end
 
 -- eigentliche interfacedefs
 local aeTeminalId = "dffb6dd3-ca32-4240-9ea8-aa8952e52691"
-local interfaces
 interfaces = {
   -- Referenzen zu Datenbanken
   items = items,
@@ -232,7 +242,7 @@ interfaces = {
        return summarizeRates(interfaces.machines.electrolyzers)
       end,
      },{
-      [1] = electrolyzer("8345d5c0-78e4-4e05-99bd-e817ac977252"),
+      [1] = electrolyzer("8345d5c0-78e4-4e05-99bd-e817ac977252", "machines.electrolyzers.cells"),
     }),
     centrifuges = properties({
       hydrogen  = rsBProp("64859669-a8b4-4dd2-97be-2f311f91f261", sides.north),
@@ -241,12 +251,12 @@ interfaces = {
        return summarizeRates(interfaces.machines.centrifuges)
       end,
      },{
-      [1] = centrifuge("f7018da2-3a0c-4a05-a141-78e5c6098179", recipes.centrifuge_deuterium),
-      [2] = centrifuge("0ee7845b-1297-4d3e-b663-70fe0b25a3bb", recipes.centrifuge_deuterium),
-      [3] = centrifuge("dabe4239-5a25-4138-91a0-c1b43f7b6919", recipes.centrifuge_deuterium),
-      [4] = centrifuge("526b976e-4c91-4168-b743-ce1f045df8cb", recipes.centrifuge_deuterium),
-      [5] = centrifuge("64859669-a8b4-4dd2-97be-2f311f91f261", recipes.centrifuge_deuterium),
-      [6] = centrifuge("abcf2e38-dcb7-41cf-b664-664f45ce4ebc", recipes.centrifuge_tritium),
+      [1] = centrifuge("f7018da2-3a0c-4a05-a141-78e5c6098179", recipes.centrifuge_deuterium, "machines.centrifuges.hydrogen"),
+      [2] = centrifuge("0ee7845b-1297-4d3e-b663-70fe0b25a3bb", recipes.centrifuge_deuterium, "machines.centrifuges.hydrogen"),
+      [3] = centrifuge("dabe4239-5a25-4138-91a0-c1b43f7b6919", recipes.centrifuge_deuterium, "machines.centrifuges.hydrogen"),
+      [4] = centrifuge("526b976e-4c91-4168-b743-ce1f045df8cb", recipes.centrifuge_deuterium, "machines.centrifuges.hydrogen"),
+      [5] = centrifuge("64859669-a8b4-4dd2-97be-2f311f91f261", recipes.centrifuge_deuterium, "machines.centrifuges.hydrogen"),
+      [6] = centrifuge("abcf2e38-dcb7-41cf-b664-664f45ce4ebc", recipes.centrifuge_tritium,   "machines.centrifuges.deuterium"),
     }),
   }),
   
@@ -338,10 +348,10 @@ interfaces = {
      return summarizeRates(interfaces.generators)
     end,
    },{
-    [1] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.west),
-    [2] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.south),
-    [3] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.east),
-    [4] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388",sides.north),
+    [1] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.west,  "tanks.plasma.output_generators"),
+    [2] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.south, "tanks.plasma.output_generators"),
+    [3] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.east,  "tanks.plasma.output_generators"),
+    [4] = generator("124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.north, "tanks.plasma.output_generators"),
   }),
   screens = {
     control = screen("de88ee46-c992-440e-9d1c-677c98bc274b", "75a3c337-d529-466a-aa0a-8fcccca3e338"),
@@ -363,22 +373,39 @@ interfaces.reactor = properties({
  enabled = rsBProp("703394c3-f38b-466a-babf-683f17b71d38", sides.up, nil, "inverted"),
  primer = rsBProp("d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"),
  energy = euRead("7e5a3837-9cf2-4998-b447-92cd1b83868d"),
- rate = function()
+ ready = function()
   local recipe = interfaces.reactor.recipe
+  local tank_east = interfaces.reactor.input_east.tank
+  local tank_west = interfaces.reactor.input_west.tank
+  local tank_east_ready = tank_east.amount >= 1000
+  local tank_west_ready = tank_west.amount >= 1000
+  return recipe and enabled and tank_east_ready and tank_west_ready
+ end,
+ running = function()
   local enabled = interfaces.reactor.enabled
-  if recipe and enabled then
+  return enabled and interfaces.reactor.ready
+ end,
+ rate = function()
+  if interfaces.reactor.running then
    return recipe.rate
   end
   return 0
  end,
  output = function()
   local recipe = interfaces.reactor.recipe
-  local enabled = interfaces.reactor.enabled
-  if recipe and enabled then
-   return {
-    type = recipe.result,
-    rate = 1.0 / recipe.ticks,
-   }
+  local running = interfaces.reactor.running
+  if recipe then
+   if running then
+    return {
+     type = recipe.result,
+     rate = 1.0 / recipe.ticks,
+    }
+   else
+    return {
+     type = recipe.result,
+     rate = 0.0,
+    }
+   end
   end
   return {}
  end,
