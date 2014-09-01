@@ -47,7 +47,7 @@ local props = {
   local availableItems = {}
   for _, tank in ipairs(tanks) do
    if tank.type then
-    availableItems[tank.type] = tank.amount / 1000.0
+    availableItems[tank.type] = tank.amount
    end
   end
   --check if there is the correct content in the injectors

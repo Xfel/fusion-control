@@ -22,7 +22,7 @@ return properties{
    return true
   end
   for _,el in ipairs(interfaces.machines.electrolyzers) do
-   if el.recipe.items[items.hydrogen] > 0 and el.running then
+   if el.recipe.rate[items.hydrogen] > 0 and el.running then
     return true
    end
   end
@@ -33,7 +33,7 @@ return properties{
    return true
   end
   for _,cen in ipairs(interfaces.machines.centrifuges) do
-   if cen.recipe.items[items.deuterium] > 0 and cen.running then
+   if cen.recipe.rate[items.deuterium] > 0 and cen.running then
     return true
    end
   end
@@ -44,7 +44,7 @@ return properties{
    return true
   end
   for _,cen in ipairs(interfaces.machines.centrifuges) do
-   if cen.recipe.items[items.tritium] > 0 and cen.running then
+   if cen.recipe.rate[items.tritium] > 0 and cen.running then
     return true
    end
   end
