@@ -11,6 +11,9 @@ local lib_dir = fs.path(this_file)
 shell.setPath(lib_dir .. ":" .. shell.getPath())
 
 function misc.getter(source)
+ if type(source) == "function" then
+  return source
+ end
  return assert(load("local _ENV = ...;return "..source,nil,nil,{}))
 end
 function misc.stdEnv(env, dir)

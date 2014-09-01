@@ -1,6 +1,6 @@
 local formatConfig = require 'ui.formatting'
 local generalGadget = require 'ui.general'
-local interfaces = require 'config.interfaces'
+local interfaces = require 'interfaces.interfaces'
 local uicolors = require 'ui.colors'
 local uibase = require 'ui.base'
 local colors = require 'colors'

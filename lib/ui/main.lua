@@ -2,7 +2,7 @@
 local gadgets = require 'ui.gadgets'
 local os = require 'os'
 local shell = require 'shell'
-local interfaces = require 'config.interfaces'
+local interfaces = require 'interfaces.all'
 local event = require 'event'
 local files = require 'files'
 local colors = require 'colors'

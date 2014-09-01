@@ -1,6 +1,6 @@
 local ui = require 'ui'
 local gfx = require 'gfx'
-local interfaces = require 'config.interfaces'
+local interfaces = require 'interfaces.interfaces'
 local formatting = require 'formatting'
 local misc = require 'misc'
 local uibase = require 'ui.base'

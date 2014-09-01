@@ -1,4 +1,4 @@
-local items = require 'config.items'
+local items = require 'data.items'
 
 local function c(fg,bg)
  return {

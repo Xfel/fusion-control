@@ -7,7 +7,6 @@ local formats = {
   precision = 0,
   length = 11, --"2 000 000 B"
   unit = "B",
-  one = 1000,
  },
  fluid_small = {
   grouped = true,
@@ -15,7 +14,6 @@ local formats = {
   precision = 0,
   length = 4, --"10 B"
   unit = "B",
-  one = 1000,
  },
  fluid_type = {
   length = 10 --"Wolframium"

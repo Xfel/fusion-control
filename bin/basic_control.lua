@@ -1,7 +1,7 @@
 -- imports
-local interfaces = require 'config.interfaces'
-local items = require 'config.items'
-local recipes = require 'config.recipes'
+local interfaces = require 'interfaces.all'
+local items = require 'data.items'
+local recipes = require 'data.recipes'
 local component = require 'component'
 --set primary screen to direct io.write and io.read to the right direction
 component.setPrimary("gpu", interfaces.screens.control.address)
