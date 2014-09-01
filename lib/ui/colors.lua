@@ -21,6 +21,7 @@ local colors = {
   [items.iridium]    = c(0xFFFFFF,0x000000),
   [items.platinum]   = c(0xAAAA88,0x000000),
   energy             = c(0xFFFF00,0x000000),
+  lowEnergy          = c(0xFF9900,0x000000),
   default            = c(0x444444,0x000000),
  },
  tank = {
@@ -43,6 +44,11 @@ local colors = {
   positive           = c(0x00FF00,0x000000),
   negative           = c(0xFF0000,0x000000),
   default            = c(0xFFFFFF,0x000000),
+ },
+ machine = {
+  enabled            = c(0x44FF44,0x000000),
+  disabled           = c(0x444444,0x000000),
+  error              = c(0xFF9900,0x000000),
  },
  enabled             = c(0x44FF44,0x000000),
  disabled            = c(0xFF2222,0x000000),

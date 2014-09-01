@@ -133,7 +133,80 @@ image(import("images/pipes_hydrogen_from_tank.txt"), 93, 35).color = function()
 end
 image(import("images/pipes_water.txt"), 60, 37).color = color(0x4444FF,0x000000)
 
+local function sufficientEnergy()
+ return generators.rate.eu >= machines.rate.eu
+end
+
+image(import("images/eu_cables.txt"), 41, 35).color = function()
+ local color = uicolors.pipe.default
+ if sufficientEnergy() then
+  color = uicolors.pipe.energy
+ elseif generators.rate.eu > 0 then
+  color = uicolors.pipe.lowEnergy
+ end
+ return color
+end
+
+
 ---machines
+local function machine_color(machine)
+ return function()
+  local color = uicolors.machine.disabled
+  if machine.running then
+   if sufficientEnergy() then
+    color = uicolors.machine.enabled
+   else
+    color = uicolors.machine.error
+   end
+  end
+  return color
+ end
+end
+
+
+local gen_positions = {
+ {48,  40},
+ {48,  36},
+ {42,  36},
+ {42,  40},
+}
+local gen_image = import("images/generator.txt")
+
+for index, pos in ipairs(gen_positions) do
+ image(gen_image, pos[1], pos[2]).color = machine_color(generators[index])
+end
+
+local el_positions = {
+ {97,  41},
+}
+local el_image = import("images/electrolyzer.txt")
+
+for index, pos in ipairs(el_positions) do
+ image(el_image, pos[1], pos[2]).color = machine_color(machines.electrolyzers[index])
+end
+
+local cen_positions = {
+ {97,  41},
+ {103, 41},
+ {109, 41},
+ {109, 35},
+ {103, 35},
+ {97,  35},
+}
+local cen_image = import("images/centrifuge.txt")
+
+for index, pos in ipairs(cen_positions) do
+ image(cen_image, pos[1], pos[2]).color = machine_color(machines.centrifuges[index])
+end
+
+image(import("images/reactor"), 79, 11).color = function()
+ if reactor.running then
+  return uicolors.machine.enabled
+ else
+  return uicolors.machine.disabled
+ end
+end
+
 
 ---labels
 
