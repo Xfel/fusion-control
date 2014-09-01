@@ -5,6 +5,7 @@
 ]]
 
 local interfaces = require 'interfaces.interfaces'
+local properties = require 'interfaces.properties'
 local items = require 'data.items'
 
 return properties{
@@ -17,12 +18,28 @@ return properties{
   return interfaces.balance.eu >= 0
  end,
  [items.hydrogen] = function()
-  return interfaces.me.hydrogen > 32 or interfaces.balance.hydrogen_production > 0
+  if interfaces.me.hydrogen > 32 then
+   return true
+  end
+  for _,el in ipairs(interfaces.machines.electrolyzers) do
+   if el.recipe.items[items.hydrogen] > 0 and el.running then
+    return true
+   end
+  end
+  return false
  end,
  [items.deuterium] = function() --only the item, deuterium inside the quantum tank is not 'available' for all uses
-  return interfaces.me.deuterium > 32 or interfaces.balance.deuterium_production > 0
+  if interfaces.me.deuterium > 32 then
+   return true
+  end
+  for _,cen in ipairs(interfaces.machines.centrifuges) do
+   if cen.recipe.items[items.deuterium] > 0 and cen.running then
+    return true
+   end
+  end
+  return false
  end,
  [items.cells] = function() --only the item, deuterium inside the quantum tank is not 'available' for all uses
   return true
  end,
-},
+}

@@ -8,7 +8,7 @@
 local data = require 'data.interfaces'
 local component = require 'component'
 local items = require 'data.items'
-local properties = require 'properties'
+local properties = require 'interfaces.properties'
 
 -- erzeugt eine Funktion, die die Menge an items des gegebenen typs ausliest.
 local function aeRead(address, item)
@@ -19,7 +19,7 @@ end
 
 --generate getter table
 local t = {}
-for name, item = pairs(items) do
+for name, item in pairs(items) do
  if type(item) == "table" then
   local aeAccess = aeRead(data.ae, item)
   t[name] = aeAccess --'direct' access (via name)

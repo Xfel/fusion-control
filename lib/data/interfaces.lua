@@ -87,7 +87,7 @@ return {
  reactor = {
   redstone = {
    enabled = {"703394c3-f38b-466a-babf-683f17b71d38", sides.up, nil, "inverted"},
-   primer = ["d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"},
+   primer = {"d2073569-b179-48fe-a44c-01845b6bf710", sides.east, nil, "inverted"},
   },
   energy = "7e5a3837-9cf2-4998-b447-92cd1b83868d",
   input_east = {
@@ -102,97 +102,97 @@ return {
     recycle = {"5ffa5a21-3b68-4d43-88bd-afb5b29a93bf", sides.up},
    },
   },
-  generators = {
-   [1]={
-    recipe = recipes.plasma_energy,
-    requirement = "tanks.plasma.output_generators",
-    redstone = {
-     enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.west},
-    },
-   },
-   [2]={
-    recipe = recipes.plasma_energy,
-    requirement = "tanks.plasma.output_generators",
-    redstone = {
-     enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.south},
-    },
-   },
-   [3]={
-    recipe = recipes.plasma_energy,
-    requirement = "tanks.plasma.output_generators",
-    redstone = {
-     enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.east},
-    },
-   },
-   [4]={
-    recipe = recipes.plasma_energy,
-    requirement = "tanks.plasma.output_generators",
-    redstone = {
-     enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.north},
-    },
+ },
+ generators = {
+  [1]={
+   recipe = recipes.plasma_energy,
+   requirement = "tanks.plasma.output_generators",
+   redstone = {
+    enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.west},
    },
   },
-  machines = {
-   centrifuges = {
-    redstone = {
-     hydrogen  = {"64859669-a8b4-4dd2-97be-2f311f91f261", sides.north},
-     deuterium = {"abcf2e38-dcb7-41cf-b664-664f45ce4ebc", sides.south},
-    },
-    [1] = {
-     recipe = recipes.centrifuge_deuterium,
-     requirement = "machines.centrifuges.hydrogen"
-     redstone = {
-      enabled = {"f7018da2-3a0c-4a05-a141-78e5c6098179", sides.up, nil, "inverted"},
-     },
-    },
-    [2] = {
-     recipe = recipes.centrifuge_deuterium,
-     requirement = "machines.centrifuges.hydrogen"
-     redstone = {
-      enabled = {"0ee7845b-1297-4d3e-b663-70fe0b25a3bb", sides.up, nil, "inverted"},
-     },
-    },
-    [3] = {
-     recipe = recipes.centrifuge_deuterium,
-     requirement = "machines.centrifuges.hydrogen"
-     redstone = {
-      enabled = {"dabe4239-5a25-4138-91a0-c1b43f7b6919", sides.up, nil, "inverted"},
-     },
-    },
-    [4] = {
-     recipe = recipes.centrifuge_deuterium,
-     requirement = "machines.centrifuges.hydrogen"
-     redstone = {
-      enabled = {"526b976e-4c91-4168-b743-ce1f045df8cb", sides.up, nil, "inverted"},
-     },
-    },
-    [5] = {
-     recipe = recipes.centrifuge_deuterium,
-     requirement = "machines.centrifuges.hydrogen"
-     redstone = {
-      enabled = {"64859669-a8b4-4dd2-97be-2f311f91f261", sides.up, nil, "inverted"},
-     },
-    },
-    [6] = {
-     recipe = recipes.centrifuge_tritium,
-     requirement = "machines.centrifuges.deuterium"
-     redstone = {
-      enabled = {"abcf2e38-dcb7-41cf-b664-664f45ce4ebc", sides.up, nil, "inverted"},
-     },
-    },
+  [2]={
+   recipe = recipes.plasma_energy,
+   requirement = "tanks.plasma.output_generators",
+   redstone = {
+    enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.south},
    },
-   electrolyzers = {
-    redstone = {
-     cells  = {"8345d5c0-78e4-4e05-99bd-e817ac977252", sides.west, nil, "inverted"},
-    },
-    [1] = {
-     recipe = recipes.electrolyzer_hydrogen,
-     requirement = "machines.electrolyzers.cells",
-     redstone = {
-      enabled = {"8345d5c0-78e4-4e05-99bd-e817ac977252", sides.north, nil, "inverted"},
-     },
-    },
+  },
+  [3]={
+   recipe = recipes.plasma_energy,
+   requirement = "tanks.plasma.output_generators",
+   redstone = {
+    enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.east},
+   },
+  },
+  [4]={
+   recipe = recipes.plasma_energy,
+   requirement = "tanks.plasma.output_generators",
+   redstone = {
+    enabled = {"124a5dc1-45e8-430f-9f69-80f3c7b53388", sides.north},
+   },
   },
  },
-
+ machines = {
+  centrifuges = {
+   redstone = {
+    hydrogen  = {"64859669-a8b4-4dd2-97be-2f311f91f261", sides.north},
+    deuterium = {"abcf2e38-dcb7-41cf-b664-664f45ce4ebc", sides.south},
+   },
+   [1] = {
+    recipe = recipes.centrifuge_deuterium,
+    requirement = "machines.centrifuges.hydrogen",
+    redstone = {
+     enabled = {"f7018da2-3a0c-4a05-a141-78e5c6098179", sides.up, nil, "inverted"},
+    },
+   },
+   [2] = {
+    recipe = recipes.centrifuge_deuterium,
+    requirement = "machines.centrifuges.hydrogen",
+    redstone = {
+     enabled = {"0ee7845b-1297-4d3e-b663-70fe0b25a3bb", sides.up, nil, "inverted"},
+    },
+   },
+   [3] = {
+    recipe = recipes.centrifuge_deuterium,
+    requirement = "machines.centrifuges.hydrogen",
+    redstone = {
+     enabled = {"dabe4239-5a25-4138-91a0-c1b43f7b6919", sides.up, nil, "inverted"},
+    },
+   },
+   [4] = {
+    recipe = recipes.centrifuge_deuterium,
+    requirement = "machines.centrifuges.hydrogen",
+    redstone = {
+     enabled = {"526b976e-4c91-4168-b743-ce1f045df8cb", sides.up, nil, "inverted"},
+    },
+   },
+   [5] = {
+    recipe = recipes.centrifuge_deuterium,
+    requirement = "machines.centrifuges.hydrogen",
+    redstone = {
+     enabled = {"64859669-a8b4-4dd2-97be-2f311f91f261", sides.up, nil, "inverted"},
+    },
+   },
+   [6] = {
+    recipe = recipes.centrifuge_tritium,
+    requirement = "machines.centrifuges.deuterium",
+    redstone = {
+     enabled = {"abcf2e38-dcb7-41cf-b664-664f45ce4ebc", sides.up, nil, "inverted"},
+    },
+   },
+  },
+  electrolyzers = {
+   redstone = {
+    cells  = {"8345d5c0-78e4-4e05-99bd-e817ac977252", sides.west, nil, "inverted"},
+   },
+   [1] = {
+    recipe = recipes.electrolyzer_hydrogen,
+    requirement = "machines.electrolyzers.cells",
+    redstone = {
+     enabled = {"8345d5c0-78e4-4e05-99bd-e817ac977252", sides.north, nil, "inverted"},
+    },
+   },
+  },
+ },
 }

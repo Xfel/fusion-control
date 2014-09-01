@@ -4,7 +4,7 @@
   loads all machines
 ]]
 
-local quickSum = require 'interfaces.primitives.quicksum'
+local quickSum = require 'interfaces.primitive.quicksum'
 local properties = require 'interfaces.properties'
 
 local list = {}

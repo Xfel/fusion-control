@@ -79,8 +79,8 @@ local props = {
   
   for item, amount in pairs(output) do
    if amount > 0 then
-    outputType = item,
-    outputRate = amount,
+    outputType = item
+    outputRate = amount
    end
   end
   return {type = outputType, rate = outputRate}

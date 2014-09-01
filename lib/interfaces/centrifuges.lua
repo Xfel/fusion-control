@@ -5,8 +5,9 @@
 ]]
 
 local properties = require 'interfaces.properties'
-local machine = require 'interfaces.primitives.machine'
-local quickSum = require 'quicksum'
+local machine = require 'interfaces.primitive.machine'
+local quickSum = require 'interfaces.primitive.quicksum'
+local quickRS = require 'interfaces.primitive.quickrs'
 local data = require 'data.interfaces'
 
 local function centrifuge(data)
@@ -25,9 +26,9 @@ local props = {
   return quickSum(list, "rate", ipairs)
  end,
 }
-quickRS(props, data.centrifuges.redstone)
+quickRS(props, data.machines.centrifuges.redstone)
 
-for index, centrifugeData in ipairs(data.centrifuges) do
+for index, centrifugeData in ipairs(data.machines.centrifuges) do
  list[index] = centrifuge(centrifugeData)
 end
 

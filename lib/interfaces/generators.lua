@@ -5,8 +5,9 @@
 ]]
 
 local properties = require 'interfaces.properties'
-local machine = require 'interfaces.primitives.machine'
-local quickSum = require 'quicksum'
+local machine = require 'interfaces.primitive.machine'
+local quickSum = require 'interfaces.primitive.quicksum'
+local quickRS = require 'interfaces.primitive.quickrs'
 local recipes = require 'data.recipes'
 local data = require 'data.interfaces'
 local interfaces = require 'interfaces.interfaces'
@@ -27,7 +28,7 @@ local props = {
  rate = function()
   local maxRate = quickSum(list, "rate", ipairs)
   local maxUsage = interfaces.machines.rate.eu or 0
-  local euRate = math.min(maxRate.eu, -maxUsage.eu)
+  local euRate = math.min(maxRate.eu, -maxUsage)
   return newRate{
    eu = euRate,
    [items.plasma] = (euRate / maxRate.eu) * maxRate[items.plasma],

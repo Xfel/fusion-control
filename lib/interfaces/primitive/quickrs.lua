@@ -4,6 +4,8 @@
   simplifies the creation of redstone controls by creating a list of redstone properties from a list of addresses + other data
 ]]
 
+local redstone = require 'interfaces.primitive.redstone'
+
 return function(props, rsData)
  if rsData then
   for name, rsTable in pairs(rsData) do

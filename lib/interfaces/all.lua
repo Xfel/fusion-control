@@ -12,6 +12,7 @@ local modules = {
  machines = true,
  tanks = true,
  me = true,
+ screens = true,
  --database
  items = "data.items",
  recipes = "data.recipes",
@@ -21,7 +22,7 @@ local modules = {
  availability = true,
 }
 
-local interfaces = require 'interfaces'
+local interfaces = require 'interfaces.interfaces'
 
 --loading...
 for name, path in pairs(modules) do

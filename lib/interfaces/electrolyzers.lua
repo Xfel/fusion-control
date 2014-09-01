@@ -5,8 +5,9 @@
 ]]
 
 local properties = require 'interfaces.properties'
-local machine = require 'interfaces.primitives.machine'
-local quickSum = require 'quicksum'
+local machine = require 'interfaces.primitive.machine'
+local quickSum = require 'interfaces.primitive.quicksum'
+local quickRS = require 'interfaces.primitive.quickrs'
 local data = require 'data.interfaces'
 
 local function electrolyzer(data)
@@ -25,10 +26,10 @@ local props = {
   return quickSum(list, "rate", ipairs)
  end,
 }
-quickRS(props, data.electrolyzers.redstone)
+quickRS(props, data.machines.electrolyzers.redstone)
 
-for index, electrolyzerData in ipairs(data.electrolyzers) do
- list[index] = centrifuge(electrolyzerData)
+for index, electrolyzerData in ipairs(data.machines.electrolyzers) do
+ list[index] = electrolyzer(electrolyzerData)
 end
 
 return properties(props, list)

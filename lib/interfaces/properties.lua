@@ -10,7 +10,7 @@
 --TODO: caching for properties, set __newindex metatable to pTable to catch extensions (maybe)
 -- einige hilfsfunktionen
 -- generiert eine Metatable, die entsprechende Getter/Setter-Funktionen in __index/__newindex nutzt.
-return function properties(pTable, dTable)
+return function(pTable, dTable)
   -- normalize
   for k, prop in pairs(pTable) do
     --TODO: quick getters (maybe)

@@ -22,6 +22,9 @@ local function newRate(t)
    end
    return new
   end,
+  __index = function()
+   return 0 --default value: 0
+  end,
  })
 end
 

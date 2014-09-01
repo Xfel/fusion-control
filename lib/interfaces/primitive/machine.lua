@@ -4,6 +4,7 @@
   the base for every machine
 ]]
 local interfaces = require 'interfaces.interfaces'
+local newRate = require 'data.newRate'
 local misc = require 'misc'
 
 return function(props, machine)
@@ -21,7 +22,7 @@ return function(props, machine)
    if requirement and not requirement(interfaces) then
     return false
    end
-   for ingredient, amount in pairs(recipe.ingredients) do
+   for ingredient, amount in pairs(recipe.items) do
     if amount < 0 and ingredient ~= "eu" then
      if not interfaces.availability[ingredient] then
       return false
