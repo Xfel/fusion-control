@@ -4,7 +4,7 @@ local event = require 'event'
 local CHECK_INTERVAL = 3.0
 
 return function(tank, output_name)
- local reserve = 1000000
+ local reserve = 1000
  
  local function check()
   if reserve <= 0 then

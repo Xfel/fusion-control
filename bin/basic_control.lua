@@ -115,7 +115,7 @@ local commands = {
  tanks = function()
   for id,tank in pairs(interfaces.tanks) do
    if type(id) == "string" then
-    print(id..": "..math.floor(tank.tank.amount / 1000))
+    print(id..": "..math.floor(tank.tank.amount))
    end
   end
  end,
@@ -143,16 +143,16 @@ local commands = {
  reserve = function(amount)
   local value = tonumber(amount)
   if value ~= nil then
-   interfaces.tanks.plasma.reserve = value * 1000.0
+   interfaces.tanks.plasma.reserve = value
   end
-  print("Plasma Reserve: " .. interfaces.tanks.plasma.reserve / 1000.0)
+  print("Plasma Reserve: " .. interfaces.tanks.plasma.reserve)
  end,
  overflow = function(amount)
   local value = tonumber(amount)
   if value ~= nil then
-   interfaces.tanks.plasma.overflow = value * 1000.0
+   interfaces.tanks.plasma.overflow = value
   end
-  print("Plasma Overflow: " .. interfaces.tanks.plasma.overflow / 1000.0)
+  print("Plasma Overflow: " .. interfaces.tanks.plasma.overflow)
  end,
 }
 
