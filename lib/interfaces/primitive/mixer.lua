@@ -47,21 +47,10 @@ return function(tanks, inputs)
    input.recycle = false
   end
   ---set new output state---
-  --prepare output table
-  local output = {}
-  if current ~= nil then
-   for _,ingredient in ipairs(current.ingredients) do
-    output[ingredient] = true
-   end
-  end
   --set tank output
-  for _,tank in pairs(tanks) do
-   if tank.mixed then
-    if output[tank.item] then
-     tank.output=true
-    else
-     tank.output=false
-    end
+  for ingredient, amount in pairs(current.items) do
+   if ingredient ~= "eu" and amount < 0 then
+    tanks[ingredient].output = true
    end
   end
   --*FINISHED*

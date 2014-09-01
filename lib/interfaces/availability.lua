@@ -18,7 +18,7 @@ return properties{
   return interfaces.balance.eu >= 0
  end,
  [items.hydrogen] = function()
-  if interfaces.me.hydrogen > 32 then
+  if interfaces.me.hydrogen > 8 then
    return true
   end
   for _,el in ipairs(interfaces.machines.electrolyzers) do
@@ -29,7 +29,7 @@ return properties{
   return false
  end,
  [items.deuterium] = function() --only the item, deuterium inside the quantum tank is not 'available' for all uses
-  if interfaces.me.deuterium > 32 then
+  if interfaces.me.deuterium > 8 then
    return true
   end
   for _,cen in ipairs(interfaces.machines.centrifuges) do

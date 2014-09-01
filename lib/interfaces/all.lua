@@ -23,10 +23,8 @@ local modules = {
 }
 
 local interfaces = require 'interfaces.interfaces'
-local properties, resetCaches = require 'interfaces.interfaces'
-local event = require 'event'
+local properties, resetCaches = require 'interfaces.properties'
 
-event.timer(3.0, resetCaches, math.huge)
 
 --loading...
 for name, path in pairs(modules) do

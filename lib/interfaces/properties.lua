@@ -11,6 +11,7 @@ local function resetCaches()
   caches[k] = {}
  end
 end
+require('event').timer(3.0, resetCaches, math.huge)
 
 
 --TODO: caching for properties, set __newindex metatable to pTable to catch extensions (maybe)
@@ -60,4 +61,4 @@ return function(pTable, dTable)
       error("No such writable property '"..k.."'",2)
     end,
   })
-end, resetCaches
+end

@@ -102,44 +102,28 @@ image(import("images/pipes_input_west.txt"), 21, 20).color = function()
 end
 image(import("images/pipes_deuterium.txt"), 48, 19).color = function()
  local color = uicolors.pipe.default
- local dBalance = machines.rate[items.deuterium] or 0
- if dBalance > 0 then
-  color = uicolors.pipe[items.deuterium]
- end
- if me.deuterium > 0 then
+ if availability[items.deuterium] then
   color = uicolors.pipe[items.deuterium]
  end
  return color
 end
 image(import("images/pipes_tritium.txt"), 48, 13).color = function()
  local color = uicolors.pipe.default
- local tBalance = machines.rate[items.tritium] or 0
- if tBalance > 0 then
-  color = uicolors.pipe[items.tritium]
- end
- if me.tritium > 0 then
+ if availability[items.tritium] then
   color = uicolors.pipe[items.tritium]
  end
  return color
 end
 image(import("images/pipes_hydrogen_from_electrolyzers.txt"), 75, 35).color = function()
  local color = uicolors.pipe.default
- local tBalance = machines.rate[items.hydrogen] or 0
- if tBalance > 0 then
-  color = uicolors.pipe[items.hydrogen]
- end
- if me.hydrogen > 0 then
+ if availability[items.hydrogen] then
   color = uicolors.pipe[items.hydrogen]
  end
  return color
 end
 image(import("images/pipes_hydrogen_from_tank.txt"), 93, 35).color = function()
  local color = uicolors.pipe.default
- local tBalance = machines.rate[items.hydrogen] or 0
- if tBalance > 0 then
-  color = uicolors.pipe[items.hydrogen]
- end
- if me.hydrogen > 0 then
+ if availability[items.hydrogen] then
   color = uicolors.pipe[items.hydrogen]
  end
  if not machines.centrifuges.hydrogen then
