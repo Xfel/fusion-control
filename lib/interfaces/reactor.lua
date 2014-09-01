@@ -55,8 +55,8 @@ local props = {
    if balance < 0 then
     if item == "eu" then
      balance = balance + reactor.energy
-     if tanks.plasma.output_reactor then
-      balance = balance + tanks.plasma.tank.amount * recipes.plasma_energy.items.eu
+     if interfaces.tanks.plasma.output_reactor then
+      balance = balance + interfaces.tanks.plasma.tank.amount * recipes.plasma_energy.items.eu
      end
      if balance < 0 then
       return false

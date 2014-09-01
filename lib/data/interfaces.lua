@@ -188,7 +188,7 @@ return {
    },
    [1] = {
     recipe = recipes.electrolyzer_hydrogen,
-    requirement = "machines.electrolyzers.cells or ({d = true, dt = true})[reactor.deuterium_distribution]",
+    requirement = "machines.electrolyzers.cells or ({t = true, dt = true})[reactor.deuterium_distribution]",
     redstone = {
      enabled = {"8345d5c0-78e4-4e05-99bd-e817ac977252", sides.north, nil, "inverted"},
     },
