@@ -134,7 +134,7 @@ end
 image(import("images/pipes_water.txt"), 60, 37).color = color(0x4444FF,0x000000)
 
 local function sufficientEnergy()
- return generators.rate.eu >= machines.rate.eu
+ return generators.rate.eu >= -machines.rate.eu
 end
 
 image(import("images/eu_cables.txt"), 41, 35).color = function()
@@ -208,7 +208,7 @@ for index, pos in ipairs(cen_positions) do
   enabledTable.t = true
  end
  image(cen_image, pos[1], pos[2]).color = machine_color(function()
-  return cen.enabled or enabledTable[reactor.deuterium_distribution]
+  return cen.running or enabledTable[reactor.deuterium_distribution]
  end)
 end
 

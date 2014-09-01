@@ -13,6 +13,7 @@ local machine = require 'interfaces.primitive.machine'
 local distributor = require 'interfaces.primitive.distributor'
 local mixer = require 'interfaces.primitive.mixer'
 local properties = require 'interfaces.properties'
+local interfaces = require 'interfaces.interfaces'
 
 local tanks = require 'interfaces.tanks' --objects necessary for initialization, should be the only case where an explicit require is necessary
 local machines = require 'interfaces.machines'
