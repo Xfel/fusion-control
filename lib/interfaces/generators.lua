@@ -12,6 +12,7 @@ local recipes = require 'data.recipes'
 local data = require 'data.interfaces'
 local interfaces = require 'interfaces.interfaces'
 local newRate = require 'data.newRate'
+local items = require 'data.items'
 
 local function generator(data)
  local gen = {
