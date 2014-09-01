@@ -149,10 +149,10 @@ end
 
 
 ---machines
-local function machine_color(machine)
+local function machine_color(running)
  return function()
   local color = uicolors.machine.disabled
-  if machine.running then
+  if running() then
    if sufficientEnergy() then
     color = uicolors.machine.enabled
    else
@@ -173,16 +173,20 @@ local gen_positions = {
 local gen_image = import("images/generator.txt")
 
 for index, pos in ipairs(gen_positions) do
- image(gen_image, pos[1], pos[2]).color = machine_color(generators[index])
+ image(gen_image, pos[1], pos[2]).color = machine_color(function()
+  return generators[index].running
+ end)
 end
 
 local el_positions = {
- {97,  41},
+ {75,  36},
 }
 local el_image = import("images/electrolyzer.txt")
 
 for index, pos in ipairs(el_positions) do
- image(el_image, pos[1], pos[2]).color = machine_color(machines.electrolyzers[index])
+ image(el_image, pos[1], pos[2]).color = machine_color(function()
+  return machines.electrolyzers[index].running
+ end)
 end
 
 local cen_positions = {
@@ -196,10 +200,19 @@ local cen_positions = {
 local cen_image = import("images/centrifuge.txt")
 
 for index, pos in ipairs(cen_positions) do
- image(cen_image, pos[1], pos[2]).color = machine_color(machines.centrifuges[index])
+ local cen = machines.centrifuges[index]
+ local enabledTable = {dt = true}
+ if cen.recipe == recipes.centrifuge_deuterium then
+  enabledTable.d = true
+ else
+  enabledTable.t = true
+ end
+ image(cen_image, pos[1], pos[2]).color = machine_color(function()
+  return cen.enabled or enabledTable[reactor.deuterium_distribution]
+ end)
 end
 
-image(import("images/reactor"), 79, 11).color = function()
+image(import("images/reactor.txt"), 79, 11).color = function()
  if reactor.running then
   return uicolors.machine.enabled
  else
