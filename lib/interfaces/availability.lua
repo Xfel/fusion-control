@@ -39,6 +39,17 @@ return properties{
   end
   return false
  end,
+ [items.tritium] = function()
+  if interfaces.me.tritium > 8 then
+   return true
+  end
+  for _,cen in ipairs(interfaces.machines.centrifuges) do
+   if cen.recipe.items[items.tritium] > 0 and cen.running then
+    return true
+   end
+  end
+  return false
+ end,
  [items.cells] = function() --only the item, deuterium inside the quantum tank is not 'available' for all uses
   return true
  end,
