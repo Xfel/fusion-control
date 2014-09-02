@@ -73,6 +73,9 @@ cycles(function()
     end
    end
   end
+  if cycles == math.huge then
+   return "infinite"
+  end
   return cycles
  end
 end, 125, 9)
@@ -94,6 +97,7 @@ cycles(function()
  end
 end, 125, 11)
 ---pipes / cables
+--production / fuel lines
 image(import("images/pipes_input_east.txt"), 21, 10).color = function()
  return uicolors.pipe[reactor.input_east.tank.type or "default"]
 end
@@ -137,6 +141,7 @@ local function sufficientEnergy()
  return generators.rate.eu >= -machines.rate.eu
 end
 
+--eu
 image(import("images/eu_cables.txt"), 41, 35).color = function()
  local color = uicolors.pipe.default
  if sufficientEnergy() then
@@ -146,6 +151,68 @@ image(import("images/eu_cables.txt"), 41, 35).color = function()
  end
  return color
 end
+image(import("images/eu_primer.txt"), 83, 13).color = function()
+ local color = uicolors.pipe.default
+ if reactor.primer then
+  color = uicolors.pipe.energy
+ end
+ return color
+end
+
+--plasma
+image(import("images/pipes_plasma_to_generators.txt"), 43, 17).color = function()
+ local color = uicolors.pipe.default
+ if tanks.plasma.output_generators then
+  color = uicolors.pipe[items.plasma]
+ end
+ return color
+end
+image(import("images/pipes_plasma_to_export.txt"), 138, 15).color = function()
+ local color = uicolors.pipe.default
+ if tanks.plasma.output_export then
+  color = uicolors.pipe[items.plasma]
+ end
+ return color
+end
+image(import("images/pipes_plasma_to_reactor.txt"), 80, 12).color = function()
+ local color = uicolors.pipe.default
+ if tanks.plasma.output_reactor then
+  color = uicolors.pipe[items.plasma]
+ end
+ return color
+end
+
+--output
+image(import("images/pipes_from_reactor_tank.txt"), 121, 17).color = function()
+ local color = uicolors.pipe.default
+ if reactor.output.type == items.plasma then
+  color = uicolors.pipe[items.plasma]
+ end
+ return color
+end
+image(import("images/pipes_from_reactor_me.txt"), 120, 18).color = function()
+ local color = uicolors.pipe.default
+ local outputType = reactor.output.type
+ if outputType ~= items.plasma then
+  color = uicolors.pipe[outputType or "default"]
+ end
+ return color
+end
+local output_item = import("images/pipes_from_reactor_item.txt")
+local output_plasma = import("images/pipes_from_reactor_plasma.txt")
+image(function()
+ local outputType = reactor.output.type
+ if outputType == items.plasma then
+  return output_plasma
+ else
+  return output_item
+ end
+end, 91, 17).color = function()
+ local outputType = reactor.output.type
+ return uicolors.pipe[outputType or "default"]
+end
+
+
 
 
 ---machines
